@@ -1,0 +1,60 @@
+Cisco IOS Software, C3550 Software (C3550-IPBASEK9-M), Version 12.2(44)SE6, RELEASE SOFTWARE (fc1)
+Copyright (c) 1986-2009 by Cisco Systems, Inc.
+Compiled Mon 09-Mar-09 20:26 by gereddy
+Image text-base: 0x00003000, data-base: 0x00EA3DB8
+
+ROM: Bootstrap program is C3550 boot loader
+
+Retail-USFlex-SW01 uptime is 21 weeks, 6 days, 1 hour, 44 minutes
+System returned to ROM by power-on
+System restarted at 12:27:11 CDT Thu Apr 4 2024
+System image file is "flash:/c3550-ipbasek9-mz.122-44.SE6.bin"
+
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+Cisco WS-C3550-48 (PowerPC) processor (revision E0) with 65526K/8192K bytes of memory.
+Processor board ID CHK0631V35V
+Last reset from warm-reset
+Running Layer2/3 Switching Image
+
+Ethernet-controller 1 has 12 Fast Ethernet/IEEE 802.3 interfaces
+
+Ethernet-controller 2 has 12 Fast Ethernet/IEEE 802.3 interfaces
+
+Ethernet-controller 3 has 12 Fast Ethernet/IEEE 802.3 interfaces
+
+Ethernet-controller 4 has 12 Fast Ethernet/IEEE 802.3 interfaces
+
+Ethernet-controller 5 has 1 Gigabit Ethernet/IEEE 802.3 interface
+
+Ethernet-controller 6 has 1 Gigabit Ethernet/IEEE 802.3 interface
+
+48 FastEthernet interfaces
+2 Gigabit Ethernet interfaces
+
+The password-recovery mechanism is enabled.
+384K bytes of flash-simulated NVRAM.
+Base ethernet MAC Address: 00:0A:8A:EC:07:80
+Motherboard assembly number: 73-5701-06
+Power supply part number: 34-0967-01
+Motherboard serial number: CAT063101KB
+Power supply serial number: LIT062900Q0
+Model revision number: E0
+Motherboard revision number: D0
+Model number: WS-C3550-48-SMI
+System serial number: CHK0631V35V
+Configuration register is 0x10F

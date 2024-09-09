@@ -1,0 +1,977 @@
+Building configuration...
+
+Current configuration : 24840 bytes
+!
+! Last configuration change at 15:21:02 CDT Thu Sep 5 2024 by hastr-decom
+! NVRAM config last updated at 15:21:02 CDT Thu Sep 5 2024 by hastr-decom
+!
+version 16.6
+no service pad
+service tcp-keepalives-in
+service tcp-keepalives-out
+service timestamps debug datetime msec localtime show-timezone
+service timestamps log datetime msec localtime show-timezone
+service password-encryption
+service compress-config
+service sequence-numbers
+no platform punt-keepalive disable-kernel-core
+!
+hostname us6-3850
+!
+!
+vrf definition Mgmt-vrf
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+logging buffered 32000
+no logging console
+enable secret 5 $1$926A$ix19tR.Hb8jx/cFut/w/s0
+!
+aaa new-model
+!
+!
+aaa group server radius BMNRadius
+ server-private 10.1.100.56 key 7 013004316A1E175C735F761A352B4F2A28
+ ip radius source-interface Vlan5
+!
+aaa group server tacacs+ BMNTacacs
+ server-private 10.1.100.56 key 7 1113000E43060C1B00203E721D06392602
+ ip tacacs source-interface Vlan5
+!
+aaa group server radius CLEARPASS
+ server name C1-CLEARPASS-01
+ server name AZ-CLEARPASS-01
+!
+aaa authentication login radius1 local
+aaa authentication dot1x default group CLEARPASS
+aaa authorization console
+aaa authorization network default group CLEARPASS 
+aaa accounting dot1x default start-stop group CLEARPASS
+aaa accounting exec default
+ action-type start-stop
+ group BMNTacacs
+!
+!
+!
+!
+!
+!
+aaa server radius dynamic-author
+ client 10.1.100.216 server-key 7 1436174E591363792E76686824125B1A23290E007D770C5914
+ client 10.200.4.18 server-key 7 072E24091B1E50571D4C5051022B7728081B6D7B36234E5416
+ port 3799
+ auth-type all
+!
+aaa session-id common
+clock timezone CST -6 0
+clock summer-time CDT recurring
+switch 1 provision ws-c3850-24xs
+switch 2 provision ws-c3850-24xs
+!
+!
+!
+!
+!
+coap http enable
+!
+no ip source-route
+ip routing
+!
+ip name-server 10.1.100.152 10.1.100.172
+ip domain name astros.com
+!
+!
+!
+no login on-success log
+!
+!
+!
+!
+!
+qos queue-stats-frame-count
+vtp domain ASTROS
+vtp mode transparent
+udld aggressive
+
+!
+source template AstrosPort
+!
+!
+!
+!
+dot1x system-auth-control
+!
+!
+diagnostic bootup level minimal
+spanning-tree mode rapid-pvst
+spanning-tree portfast bpduguard default
+spanning-tree extend system-id
+archive
+ log config
+  logging enable
+  hidekeys
+ path tftp://10.1.100.15/$h-$t
+ write-memory
+ time-period 43829
+errdisable recovery cause bpduguard
+errdisable recovery cause security-violation
+errdisable recovery cause dhcp-rate-limit
+!
+username admin privilege 15 secret 5 $1$NB1m$MlODAGQsS3vDKXQV.VUGN0
+username hastr-local privilege 15 secret 5 $1$ZKid$vMoAq.NCuT2raKUasT9u71
+username Impact privilege 15 secret 5 $1$uL8m$fPrxb.BzMP50rf4uDyaeM0
+username hastr-decom privilege 15 password 7 12171D1041583C227F013670140F75260A
+!
+redundancy
+ mode sso
+!
+!
+transceiver type all
+ monitoring
+hw-switch switch 2 logging onboard message
+!
+vlan access-map DENY_INTRA_VLAN 5
+ match ip address ALLOW_DHCP
+ action forward
+vlan access-map DENY_INTRA_VLAN 6
+ match ip address ALLOW_TO_GATEWAY
+ action forward
+vlan access-map DENY_INTRA_VLAN 10
+ match ip address DENY_INTRA_VLAN
+ action drop
+vlan access-map DENY_INTRA_VLAN 20
+ action forward
+!
+vlan filter DENY_INTRA_VLAN vlan-list 3
+!
+vlan 3
+ name Guest
+!
+vlan 5
+ name Management
+!
+vlan 11
+ name Continuum
+!
+vlan 12
+ name Ghost
+!
+vlan 18
+ name Stadium-Roof
+!
+vlan 19
+ name TurboVUI
+!
+vlan 20
+ name oldNSN-Roof
+!
+vlan 24 
+!
+vlan 25
+ name Astros-Client
+!
+vlan 30
+ name Camera_LAN
+!
+vlan 31
+ name SAN-Management
+!
+vlan 32
+ name Tickets.com-Failover
+!
+vlan 33
+ name Tickets.com-Inside
+!
+vlan 35
+ name TM-Clients
+!
+vlan 40
+ name Printers
+!
+vlan 41
+ name HighSpeed
+!
+vlan 48
+ name Retail
+!
+vlan 55
+ name UPS-Monitoring
+!
+vlan 65
+ name Comcast_ISP
+!
+vlan 70
+ name WeatherBug
+!
+vlan 75
+ name MLB-L2
+!
+vlan 98
+ name ECOS
+!
+vlan 99
+ name BPE=Temp
+!
+vlan 100
+ name Servers
+!
+vlan 130
+ name Micros
+!
+vlan 145
+ name Stadis
+!
+vlan 150
+ name NetvuPoint
+!
+vlan 160
+ name SecurityCams
+!
+vlan 175
+ name MLB-Wifi
+!
+vlan 200
+ name Uplink_ASA
+!
+vlan 325
+ name Radio
+!
+vlan 404
+ name SinkHole
+!
+vlan 732
+ name MMP-Voice
+!
+vlan 901
+ name Getty
+!
+vlan 902
+ name AP
+!
+vlan 903
+ name USA_Today
+!
+vlan 904
+ name Hou_Chron
+!
+vlan 905
+ name Floater_for_Cameras
+!
+vlan 999
+ name NATIVE_VLAN
+!
+vlan 1021
+ name CTRL-BPE
+!
+vlan 3000
+ name IT_Management
+!
+vlan 3001
+ name Business
+!
+vlan 3002
+ name Retail_vlan
+!
+vlan 3003
+ name Facility_OT
+!
+vlan 3004
+ name BBOps_OT
+!
+vlan 3005
+ name BPE_OT
+!
+vlan 3006
+ name Cameras
+!
+vlan 3007
+ name Radio_1
+!
+vlan 3008
+ name Radio_2
+!
+vlan 3967
+ name DMZ
+lldp run
+!
+!
+class-map match-any system-cpp-police-topology-control
+  description Topology control
+class-map match-any system-cpp-police-sw-forward
+  description Sw forwarding, L2 LVX data, LOGGING
+class-map match-any system-cpp-default
+  description DHCP Snooping, EWLC control, EWCL data 
+class-map match-any PRIORITY
+ match ip dscp ef 
+ match access-group name VOICE-MARKING
+class-map match-any system-cpp-police-sys-data
+  description Learning cache ovfl, Crypto Control, Exception, EGR Exception, NFL SAMPLED DATA, RPF Failed
+class-map match-any system-cpp-police-punt-webauth
+  description Punt Webauth
+class-map match-any system-cpp-police-l2lvx-control
+  description L2 LVX control packets
+class-map match-any SCAVENGER-MARKING
+ match access-group name SCAVENGER-MARKING
+class-map match-any SIGNALING-MARKING
+ match access-group name SIGNALING-MARKING
+ match ip dscp af31 
+class-map match-any VIDEO-MARKING
+ match ip dscp af41 
+ match access-group name VIDEO-MARKING
+class-map match-any system-cpp-police-forus
+  description Forus Address resolution and Forus traffic
+class-map match-any VOICE-MARKING
+ match access-group name VOICE-MARKING
+ match dscp ef 
+class-map match-any system-cpp-police-multicast-end-station
+  description MCAST END STATION
+class-map match-any system-cpp-police-multicast
+  description Transit Traffic and MCAST Data
+class-map match-any system-cpp-police-l2-control
+  description L2 control
+class-map match-any system-cpp-police-dot1x-auth
+  description DOT1X Auth
+class-map match-any system-cpp-police-data
+  description ICMP redirect, ICMP_GEN and BROADCAST
+class-map match-any system-cpp-police-stackwise-virt-control
+  description Stackwise Virtual
+class-map match-any non-client-nrt-class
+class-map match-any system-cpp-police-routing-control
+  description Routing control
+class-map match-any system-cpp-police-protocol-snooping
+  description Protocol snooping
+class-map match-any system-cpp-police-system-critical
+  description System Critical and Gold
+!
+policy-map PRIORITY
+ class PRIORITY
+ class VIDEO-MARKING
+ class class-default
+policy-map ASTROS-MARKING
+ class VOICE-MARKING
+  set dscp ef
+ class VIDEO-MARKING
+  set dscp af41
+ class SIGNALING-MARKING
+  set dscp af31
+ class SCAVENGER-MARKING
+  set dscp cs1
+ class class-default
+  set dscp default
+policy-map system-cpp-policy
+policy-map port_child_policy
+ class non-client-nrt-class
+  bandwidth remaining ratio 10
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+template AstrosPort
+ dot1x pae authenticator
+ dot1x timeout tx-period 5
+ dot1x max-req 1
+ dot1x max-reauth-req 1
+ spanning-tree portfast
+ switchport access vlan 3
+ switchport mode access
+ mab
+!
+!
+interface Port-channel1
+ description Uplink_CORE-6800
+ switchport mode trunk
+!
+interface Port-channel3
+ description PO3-US2N
+ switchport trunk allowed vlan 3,5,25,40,48,75,160,175,732
+ switchport mode trunk
+!
+interface Port-channel5
+ description 6800-uplink-Ten 2/1/15
+ switchport trunk allowed vlan 1-9,11-4094
+ switchport mode trunk
+ flowcontrol receive off
+!
+interface Port-channel6
+ description US-602
+ switchport mode trunk
+!
+interface Port-channel7
+ description Main-103
+ switchport trunk allowed vlan 3,5,20,25,35,40,98,3000-3008
+ switchport mode trunk
+!
+interface Port-channel8
+ description Team-1S-US
+ switchport mode trunk
+!
+interface Port-channel10
+ description US3850-6800-uplink
+ switchport trunk allowed vlan 1-9,11-4094
+ switchport mode trunk
+!
+interface Port-channel15
+ description US-538
+ switchport mode trunk
+!
+interface Port-channel24
+ description Uplink_CST1-408-US
+ switchport mode trunk
+!
+interface Port-channel25
+ description union1-515a-us
+ switchport mode trunk
+!
+interface Port-channel31
+ description TRUNK-US317
+ switchport mode trunk
+!
+interface Port-channel32
+ switchport mode trunk
+!
+interface Port-channel40
+ switchport trunk allowed vlan 3,5,25,35,40,75,175,732
+ switchport mode trunk
+!
+interface Port-channel44
+ description MP-CF404-SW01
+ switchport trunk allowed vlan 3,5,48
+ switchport mode trunk
+!
+interface Port-channel50
+ description US3850-6800-uplink
+ switchport trunk allowed vlan 1-9,11-4094
+ switchport mode trunk
+!
+interface GigabitEthernet0/0
+ vrf forwarding Mgmt-vrf
+ no ip address
+ negotiation auto
+!
+interface TenGigabitEthernet1/0/1
+ description US-1N g1/0/51
+ switchport trunk allowed vlan 3,5,25,48,75,732
+ switchport mode trunk
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet1/0/2
+ description US2-Depot
+ switchport trunk allowed vlan 3,5,25
+ switchport mode trunk
+ shutdown
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet1/0/3
+ description MMP-CF404-SW01
+ switchport trunk allowed vlan 3,5,48
+ switchport mode trunk
+ channel-group 44 mode active
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet1/0/4
+ description union1-305a-us Gig 1/0/52
+ switchport mode trunk
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet1/0/5
+ description union1-538-us Gig 1/1/4
+ switchport mode trunk
+ channel-group 15 mode active
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet1/0/6
+ description US-602 Gig 1/0/49
+ switchport mode trunk
+ channel-group 6 mode active
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet1/0/7
+ description US-2N Gig 0/47
+ switchport trunk allowed vlan 3,5,25,40,48,75,160,175,732
+ switchport mode trunk
+ channel-group 3 mode active
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet1/0/8
+ description union1-515a-us Gig 1/1/4
+ switchport mode trunk
+ channel-group 25 mode active
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet1/0/9
+ description cst1-438-us Gig 1/1/1
+ switchport mode trunk
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet1/0/10
+ description main1-m103a-mmp Gig 1/0/28
+ switchport trunk allowed vlan 3,5,20,25,35,40,98,3000-3008
+ switchport mode trunk
+ channel-group 7 mode active
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet1/0/11
+ description cst1-420a-us Gig 1/1/1
+ switchport trunk allowed vlan 3,5,25,35,40,75,175,732
+ switchport mode trunk
+ channel-group 40 mode active
+!
+interface TenGigabitEthernet1/0/12
+ description Team-1S-US
+ switchport mode trunk
+ channel-group 8 mode on
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet1/0/13
+ description uplink
+ switchport access vlan 3
+ switchport mode access
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet1/0/14
+ description uplink
+ switchport mode trunk
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet1/0/15
+ description uplink to MLBWifi
+ switchport mode trunk
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet1/0/16
+ description US_IDF_UPLINK_to
+ switchport mode trunk
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet1/0/17
+ description US_IDF_UPLINK_to
+ switchport mode trunk
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet1/0/18
+ description US_IDF_UPLINK_to
+ switchport mode trunk
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet1/0/19
+ description US_IDF_UPLINK_to
+ switchport mode trunk
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet1/0/20
+ description US_IDF_UPLINK_to
+ switchport mode trunk
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet1/0/21
+ description US_IDF_UPLINK_to
+ switchport mode trunk
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet1/0/22
+ description US_IDF_UPLINK_to
+ switchport mode trunk
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet1/0/23
+ description US_IDF_UPLINK_to
+ switchport mode trunk
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet1/0/24
+ description cst1-408-us Gig 1/1/1
+ switchport mode trunk
+ channel-group 24 mode active
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet1/1/1
+ description b30-6800-mmp Ten 1/1/2
+ switchport mode trunk
+ channel-group 1 mode active
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet1/1/2
+ switchport mode trunk
+!
+interface TenGigabitEthernet1/1/3
+!
+interface TenGigabitEthernet1/1/4
+ description 6800-uplink-Ten 2/1/15
+ switchport trunk allowed vlan 1-9,11-4094
+ switchport mode trunk
+ flowcontrol receive off
+ channel-group 5 mode desirable
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet1/1/5
+!
+interface TenGigabitEthernet1/1/6
+!
+interface TenGigabitEthernet1/1/7
+!
+interface TenGigabitEthernet1/1/8
+!
+interface FortyGigabitEthernet1/1/1
+!
+interface FortyGigabitEthernet1/1/2
+!
+interface TenGigabitEthernet2/0/1
+ description team-1s-us Gig 0/21
+ switchport mode trunk
+ channel-group 8 mode on
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet2/0/2
+ description union-depot-sw Gig 1/0/28
+ switchport trunk allowed vlan 3,5,25,160,732
+ switchport mode trunk
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet2/0/3
+ description MMP-CF404-SW01
+ switchport trunk allowed vlan 3,5,48
+ switchport mode trunk
+ channel-group 44 mode active
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet2/0/4
+ switchport mode trunk
+ channel-group 32 mode active
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet2/0/5
+ description union1-538-us Gig 1/1/3
+ switchport mode trunk
+ channel-group 15 mode active
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet2/0/6
+ description US-602 Gig 1/0/50
+ switchport mode trunk
+ channel-group 6 mode active
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet2/0/7
+ description US-2N Gig 0/48
+ switchport trunk allowed vlan 3,5,25,40,48,75,160,175,732
+ switchport mode trunk
+ channel-group 3 mode active
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet2/0/8
+ description US-317 Gig 1/0/49
+ switchport mode trunk
+!
+interface TenGigabitEthernet2/0/9
+ switchport mode trunk
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet2/0/10
+ description main1-m103a-mmp Gig 1/0/27
+ switchport trunk allowed vlan 3,5,20,25,35,40,98,3000-3008
+ switchport mode trunk
+ channel-group 7 mode active
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet2/0/11
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet2/0/12
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet2/0/13
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet2/0/14
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet2/0/15
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet2/0/16
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet2/0/17
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet2/0/18
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet2/0/19
+ description cst1-420a-us Gig 1/1/4
+ switchport trunk allowed vlan 3,5,25,35,40,75,175,732
+ switchport mode trunk
+ channel-group 40 mode active
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet2/0/20
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet2/0/21
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet2/0/22
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet2/0/23
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet2/0/24
+ description US2-Golf
+ switchport trunk allowed vlan 5,25,40,732
+ switchport mode trunk
+!
+interface TenGigabitEthernet2/1/1
+ description b30-6800-mmp Ten 2/1/2
+ switchport mode trunk
+ channel-group 1 mode active
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet2/1/2
+ switchport access vlan 3
+ switchport mode access
+ authentication host-mode multi-auth
+ authentication order dot1x mab
+ authentication priority dot1x mab
+ authentication port-control auto
+ source template AstrosPort
+!
+interface TenGigabitEthernet2/1/3
+!
+interface TenGigabitEthernet2/1/4
+ description 6800-uplink
+ switchport trunk allowed vlan 1-9,11-4094
+ switchport mode trunk
+ flowcontrol receive off
+ channel-group 5 mode desirable
+ service-policy input ASTROS-MARKING
+!
+interface TenGigabitEthernet2/1/5
+!
+interface TenGigabitEthernet2/1/6
+!
+interface TenGigabitEthernet2/1/7
+!
+interface TenGigabitEthernet2/1/8
+!
+interface FortyGigabitEthernet2/1/1
+!
+interface FortyGigabitEthernet2/1/2
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan5
+ ip address 10.5.0.252 255.255.254.0
+!
+ip default-gateway 10.5.0.1
+ip forward-protocol nd
+no ip http server
+ip http authentication local
+no ip http secure-server
+ip route 0.0.0.0 0.0.0.0 10.5.0.1
+ip ssh time-out 60
+ip ssh authentication-retries 2
+ip ssh version 2
+!
+ip access-list extended ALLOW_DHCP
+ permit udp any eq bootpc any eq bootps
+ permit udp any eq bootps any eq bootpc
+ip access-list extended ALLOW_TO_GATEWAY
+ permit ip any host 192.168.200.1
+ permit ip host 192.168.200.1 any
+ip access-list extended DENY_INTRA_VLAN
+ permit ip 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+ permit icmp 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+ permit tcp 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+ permit udp 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+ip access-list extended SCAVENGER-MARKING
+ remark THIS ACCESS LIST WILL BE POPULATED AS NEEDED -FIRST ENTRY IS A BOGUS ADDRESS
+ permit ip host 2.255.255.1 host 2.255.255.2
+ip access-list extended SIGNALING-MARKING
+ remark SCCP
+ permit tcp any any range 2000 2002
+ permit tcp any range 2000 2002 any
+ remark SCCPS
+ permit tcp any any eq 2443
+ permit tcp any eq 2443 any
+ remark SIP
+ permit udp any any range 5060 5061
+ remark VIDEO SIGNALING
+ permit ip host 1.255.255.255 any
+ permit ip any host 1.255.255.254
+ip access-list extended VIDEO-MARKING
+ remark MUTLICAST VIDEO
+ permit udp 1.254.254.0 0.0.0.255 225.255.255.0 0.0.0.255 range 49000 49999
+ remark UNICAST VIDEO
+ permit udp host 1.253.253.253 any range 16384 32767
+ip access-list extended VOICE-MARKING
+ remark RTP
+ permit udp any any range 16384 32767
+!
+logging trap debugging
+logging source-interface Vlan5
+logging host 10.1.100.15
+access-list 23 permit 10.1.0.0 0.0.255.255
+access-list 23 permit 10.5.0.0 0.0.255.255
+access-list 50 permit 10.1.100.56
+access-list 50 deny   any log
+access-list 51 permit 10.1.100.56
+access-list 51 permit 64.73.141.230
+access-list 51 permit 64.73.81.60
+access-list 51 permit 64.73.141.234
+access-list 51 permit 64.73.65.60
+access-list 51 permit 10.1.100.234
+access-list 51 permit 64.73.42.170
+access-list 51 permit 10.1.100.253
+access-list 51 permit 64.73.42.185
+access-list 51 permit 10.1.100.175
+!
+!
+snmp-server group V3CDW v3 priv read V3READ access 50
+snmp-server view V3READ iso included
+snmp-server community cHu5EkuCAswAzA@ RO
+snmp-server community 5fjL39XeTEMGnET RW
+snmp-server community 0V=jBoses]vp RW
+snmp-server community wiseSh@pe80 RO
+snmp-server location Houston,TX
+snmp-server contact MANSHelp@cdw.com
+snmp-server enable traps snmp authentication linkdown linkup coldstart warmstart
+snmp-server enable traps license
+snmp-server enable traps entity
+snmp-server enable traps ipsla
+snmp-server enable traps config
+snmp-server enable traps mac-notification change move threshold
+snmp-server host 10.1.100.175 cHu5EkuCAswAzA@  mac-notification snmp
+snmp ifmib ifindex persist
+!
+radius-server directed-request
+radius-server key 7 01070A114F07275B2D5940065A121B07
+!
+radius server radius1
+ address ipv4 10.1.100.152 auth-port 1812 acct-port 1813
+!
+radius server AZ-CLEARPASS-01
+ address ipv4 10.200.4.18 auth-port 1645 acct-port 1646
+ key 7 06270A641959404B0F4949560A05762704006B6C07375F4114
+!
+radius server C1-CLEARPASS-01
+ address ipv4 10.1.100.216 auth-port 1645 acct-port 1646
+ key 7 1436174E591363792E76686824125B1A23290E007D770C5914
+!
+!
+control-plane
+ service-policy input system-cpp-policy
+!
+banner login ^C
+*****************************************************************
+*      / \ / \ / \ / \ / \ / \   / \ / \ / \ / \ / \ / \ / \    *
+*     ( A | S | T | R | O | S ) ( W | A | R | N | I | N | G )   *
+*      \_/ \_/ \_/ \_/ \_/ \_/   \_/ \_/ \_/ \_/ \_/ \_/ \_/    *
+*                                                               *
+*   UNAUTHORIZED ACCESS OR USE TO THIS DEVICE IS PROHIBITED     *
+*   AND IS A CRIME UNDER FEDERAL LAW. YOU MUST HAVE EXPLICIT    *
+*   PERMISSION TO ACCESS OR CONFIGURE THIS DEVICE. THERE IS     *
+*   NO RIGHT TO PRIVACY ON THIS DEVICE. THIS SYSTEM IS EQUIPPED *
+*   WITH A SECURITY SYSTEM INTENDED TO PREVENT AND RECORD ALL   *
+*   ACTIVITIES PERFORMED ON THIS DEVICE. VIOLATIONS OF THIS     *
+*   POLICY WILL RESULT IN DISCIPLINARY ACTION, AND MAY BE       *
+*   REPORTED TO LAW ENFORCEMENT !!!                             *
+*                                                               *
+*                                                               *
+*****************************************************************
+^C
+banner motd ^C
+UUUUUUUU     UUUUUUUU   SSSSSSSSSSSSSSS         66666666                     333333333333333        888888888     555555555555555555      000000000     
+U::::::U     U::::::U SS:::::::::::::::S       6::::::6                     3:::::::::::::::33    88:::::::::88   5::::::::::::::::5    00:::::::::00   
+U::::::U     U::::::US:::::SSSSSS::::::S      6::::::6                      3::::::33333::::::3 88:::::::::::::88 5::::::::::::::::5  00:::::::::::::00 
+UU:::::U     U:::::UUS:::::S     SSSSSSS     6::::::6                       3333333     3:::::38::::::88888::::::85:::::555555555555 0:::::::000:::::::0
+ U:::::U     U:::::U S:::::S                6::::::6                                    3:::::38:::::8     8:::::85:::::5            0::::::0   0::::::0
+ U:::::D     D:::::U S:::::S               6::::::6                                     3:::::38:::::8     8:::::85:::::5            0:::::0     0:::::0
+ U:::::D     D:::::U  S::::SSSS           6::::::6                              33333333:::::3  8:::::88888:::::8 5:::::5555555555   0:::::0     0:::::0
+ U:::::D     D:::::U   SS::::::SSSSS     6::::::::66666     ---------------     3:::::::::::3    8:::::::::::::8  5:::::::::::::::5  0:::::0 000 0:::::0
+ U:::::D     D:::::U     SSS::::::::SS  6::::::::::::::66   -:::::::::::::-     33333333:::::3  8:::::88888:::::8 555555555555:::::5 0:::::0 000 0:::::0
+ U:::::D     D:::::U        SSSSSS::::S 6::::::66666:::::6  ---------------             3:::::38:::::8     8:::::8            5:::::50:::::0     0:::::0
+ U:::::D     D:::::U             S:::::S6:::::6     6:::::6                             3:::::38:::::8     8:::::8            5:::::50:::::0     0:::::0
+ U::::::U   U::::::U             S:::::S6:::::6     6:::::6                             3:::::38:::::8     8:::::85555555     5:::::50::::::0   0::::::0
+ U:::::::UUU:::::::U SSSSSSS     S:::::S6::::::66666::::::6                 3333333     3:::::38::::::88888::::::85::::::55555::::::50:::::::000:::::::0
+  UU:::::::::::::UU  S::::::SSSSSS:::::S 66:::::::::::::66                  3::::::33333::::::3 88:::::::::::::88  55:::::::::::::55  00:::::::::::::00 
+    UU:::::::::UU    S:::::::::::::::SS    66:::::::::66                    3:::::::::::::::33    88:::::::::88      55:::::::::55      00:::::::::00   
+      UUUUUUUUU       SSSSSSSSSSSSSSS        666666666                       333333333333333        888888888          555555555          000000000
+^C
+!
+line con 0
+ exec-timeout 600 0
+ authorization exec BMNRadius
+ logging synchronous
+ login authentication BMNRadius
+ stopbits 1
+line aux 0
+ stopbits 1
+line vty 0 4
+ exec-timeout 480 0
+ authorization exec BMNRadius
+ logging synchronous
+ login authentication BMNRadius
+ length 0
+ transport input ssh
+line vty 5 14
+ exec-timeout 480 0
+ authorization exec BMNRadius
+ logging synchronous
+ login authentication BMNRadius
+ length 0
+ transport input ssh
+line vty 15
+ exec-timeout 5 0
+ authorization exec BMNRadius
+ logging synchronous
+ login authentication BMNRadius
+ length 0
+ transport input ssh
+!
+ntp server 10.1.100.56 prefer
+ntp server 129.6.15.28 prefer
+ntp server 10.1.100.133
+!
+mac address-table notification change
+mac address-table notification threshold
+wsma agent exec
+ profile httplistener
+ profile httpslistener
+!
+wsma agent config
+ profile httplistener
+ profile httpslistener
+!
+wsma agent filesys
+ profile httplistener
+ profile httpslistener
+!
+wsma agent notify
+ profile httplistener
+ profile httpslistener
+!
+!
+wsma profile listener httplistener
+ transport http
+!
+wsma profile listener httpslistener
+ transport https
+!
+end

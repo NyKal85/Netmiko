@@ -1,0 +1,86 @@
+Cisco IOS Software, C2960X Software (C2960X-UNIVERSALK9-M), Version 15.2(4)E7, RELEASE SOFTWARE (fc2)
+Technical Support: http://www.cisco.com/techsupport
+Copyright (c) 1986-2018 by Cisco Systems, Inc.
+Compiled Tue 18-Sep-18 13:07 by prod_rel_team
+
+ROM: Bootstrap program is C2960X boot loader
+BOOTLDR: C2960X Boot Loader (C2960X-HBOOT-M) Version 15.2(4r)E3, RELEASE SOFTWARE (fc4)
+
+B-071 uptime is 3 weeks, 6 days, 6 hours, 22 minutes
+System returned to ROM by power-on
+System restarted at 07:57:13 CDT Thu Aug 8 2024
+System image file is "flash:/c2960x-universalk9-mz.152-4.E7/c2960x-universalk9-mz.152-4.E7.bin"
+Last reload reason: power-on
+
+
+
+This product contains cryptographic features and is subject to United
+States and local country laws governing import, export, transfer and
+use. Delivery of Cisco cryptographic products does not imply
+third-party authority to import, export, distribute or use encryption.
+Importers, exporters, distributors and users are responsible for
+compliance with U.S. and local country laws. By using this product you
+agree to comply with applicable laws and regulations. If you are unable
+to comply with U.S. and local laws, return this product immediately.
+
+A summary of U.S. laws governing Cisco cryptographic products may be found at:
+http://www.cisco.com/wwl/export/crypto/tool/stqrg.html
+
+If you require further assistance please contact us by sending email to
+export@cisco.com.
+
+cisco WS-C2960X-48LPS-L (APM86XXX) processor (revision L0) with 524288K bytes of memory.
+Processor board ID FCW2008B1K6
+Last reset from power-on
+3 Virtual Ethernet interfaces
+1 FastEthernet interface
+104 Gigabit Ethernet interfaces
+The password-recovery mechanism is enabled.
+
+512K bytes of flash-simulated non-volatile configuration memory.
+Base ethernet MAC Address       : 00:CA:E5:21:A3:00
+Motherboard assembly number     : 73-16692-04
+Power supply part number        : 341-0528-01
+Motherboard serial number       : FOC20070GKR
+Power supply serial number      : DCB200474FK
+Model revision number           : L0
+Motherboard revision number     : B0
+Model number                    : WS-C2960X-48LPS-L
+Daughterboard assembly number   : 73-14200-03
+Daughterboard serial number     : FOC20080B85
+System serial number            : FCW2008B1K6
+Top Assembly Part Number        : 68-100470-01
+Top Assembly Revision Number    : B0
+Version ID                      : V03
+CLEI Code Number                : CMMLP00ARC
+Daughterboard revision number   : A0
+Hardware Board Revision Number  : 0x18
+
+
+Switch Ports Model                     SW Version            SW Image                 
+------ ----- -----                     ----------            ----------               
+*    1 52    WS-C2960X-48LPS-L         15.2(4)E7             C2960X-UNIVERSALK9-M     
+     2 52    WS-C2960X-48LPS-L         15.2(4)E7             C2960X-UNIVERSALK9-M     
+
+
+Switch 02
+---------
+Switch Uptime                   : 3 weeks, 6 days, 6 hours, 22 minutes 
+Base ethernet MAC Address       : 2C:31:24:7B:0B:00
+Motherboard assembly number     : 73-16692-06
+Power supply part number        : 341-0528-02
+Motherboard serial number       : FOC210109G7
+Power supply serial number      : DCC204796XT
+Model revision number           : N0
+Motherboard revision number     : A0
+Model number                    : WS-C2960X-48LPS-L
+Daughterboard assembly number   : 73-14200-03
+Daughterboard serial number     : FOC20525YBF
+System serial number            : FCW2101B2S8
+Top assembly part number        : 68-100470-03
+Top assembly revision number    : A0
+Version ID                      : V05
+CLEI Code Number                : CMMLP00ARE
+Daughterboard revision number   : A0
+
+Configuration register is 0xF

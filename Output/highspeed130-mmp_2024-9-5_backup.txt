@@ -1,0 +1,383 @@
+Building configuration...
+
+Current configuration : 9532 bytes
+!
+! Last configuration change at 15:21:01 CDT Thu Sep 5 2024 by mcaudle
+! NVRAM config last updated at 15:21:01 CDT Thu Sep 5 2024 by mcaudle
+!
+version 15.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+!
+hostname highspeed130-mmp
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$g9aX$dDnbUYNNscreRSukOhOTt/
+!
+username admin privilege 15 secret 5 $1$j2AA$p.nlO5nVlSr3jtRj1gMKf1
+username bbop privilege 15 password 7 06544B244D43
+aaa new-model
+!
+!
+aaa group server radius CLEARPASS
+ server name C1-CLEARPASS-01
+ server name AZ-CLEARPASS-01
+!
+aaa authentication login default local group radius
+aaa authentication login NO-AAA enable
+aaa authentication dot1x default group CLEARPASS
+aaa authorization network default group CLEARPASS 
+aaa accounting dot1x default start-stop group CLEARPASS
+!
+!
+!
+!
+!
+aaa server radius dynamic-author
+ client 10.1.100.216 server-key 7 1436174E591363792E76686824125B1A23290E007D770C5914
+ client 10.200.4.18 server-key 7 06270A641959404B0F4949560A05762704006B6C07375F4114
+ port 3799
+ auth-type all
+!
+aaa session-id common
+clock timezone CST -6 0
+clock summer-time CDT recurring
+!
+!
+ip domain-name astros.com
+ip name-server 10.1.100.152
+vtp domain astros.com
+vtp mode transparent
+!
+!
+!
+!
+!
+!
+source template AstrosPort
+!
+!
+!
+archive
+ log config
+  logging enable
+  hidekeys
+ path tftp://10.1.100.15/$h-$t
+ write-memory
+ time-period 43829
+dot1x system-auth-control
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+errdisable recovery cause bpduguard
+errdisable recovery cause security-violation
+errdisable recovery interval 90
+!
+!
+vlan 5
+ name MGMT
+!
+vlan 41
+ name HighSpeed
+!
+vlan 901
+ name Getty
+!
+vlan 902
+ name AP
+!
+vlan 903
+ name USA_Today
+!
+vlan 904
+ name Hou_Chron
+!
+vlan 905
+ name Floater_for_Cameras
+!
+vlan 3000
+ name IT_Management
+!
+vlan 3001
+ name Business
+!
+vlan 3002
+ name Retail
+!
+vlan 3003
+ name Facility_OT
+!
+vlan 3004
+ name BBOps_OT
+!
+vlan 3005
+ name BPE OT
+!
+vlan 3006
+ name Cameras
+!
+vlan 3007
+ name Radio_1
+!
+vlan 3008
+ name Radio_2
+!
+!
+!
+!
+template AstrosPort
+ dot1x pae authenticator
+ dot1x timeout tx-period 5
+ dot1x max-req 1
+ dot1x max-reauth-req 1
+ spanning-tree portfast edge
+ switchport access vlan 3
+ switchport mode access
+ mab
+!
+!
+!
+!
+interface Port-channel1
+ description Po1-Trunk
+ switchport trunk allowed vlan 5,41
+ switchport mode trunk
+!
+interface GigabitEthernet0/1
+ description 10.4.0.127
+ switchport access vlan 41
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/2
+ switchport access vlan 41
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/3
+ description 10.4.0.129
+ switchport access vlan 41
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/4
+ switchport access vlan 41
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/5
+ switchport access vlan 41
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/6
+ switchport access vlan 41
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/7
+ description 10.4.0.121
+ switchport access vlan 41
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/8
+ switchport access vlan 41
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/9
+ switchport access vlan 41
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/10
+ switchport access vlan 41
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/11
+ switchport access vlan 41
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/12
+ switchport access vlan 41
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/13
+ switchport access vlan 41
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/14
+ switchport access vlan 41
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/15
+ switchport access vlan 41
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/16
+ switchport access vlan 41
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet0/17
+ description UPLINK
+ switchport trunk allowed vlan 5,41
+ switchport mode trunk
+ channel-group 1 mode active
+!
+interface GigabitEthernet0/18
+ description UPLINK
+ switchport trunk allowed vlan 5,41
+ switchport mode trunk
+ channel-group 1 mode active
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan5
+ ip address 10.5.0.223 255.255.254.0
+ no ip route-cache
+!
+ip default-gateway 10.5.0.1
+ip http server
+ip http secure-server
+!
+ip access-list extended ALLOW_DHCP
+ permit udp any eq bootpc any eq bootps
+ permit udp any eq bootps any eq bootpc
+ip access-list extended ALLOW_TO_GATEWAY
+ permit ip any host 192.168.200.1
+ permit ip host 192.168.200.1 any
+ip access-list extended DENY_INTRA_VLAN
+ permit ip 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+ permit icmp 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+ permit tcp 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+ permit udp 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+logging trap debugging
+logging host 10.1.100.15
+!
+!
+snmp-server community cHu5EkuCAswAzA@ RO
+snmp-server community 0V=jBoses]vp RW
+snmp-server community wiseSh@pe80 RO
+snmp-server contact Astros IT 713-256-8844
+snmp-server enable traps snmp authentication linkdown linkup coldstart warmstart
+snmp-server enable traps config
+snmp-server enable traps entity
+snmp-server enable traps mac-notification change move threshold
+snmp-server host 10.1.100.175 cHu5EkuCAswAzA@  mac-notification snmp
+snmp mib flash cache
+!
+radius-server directed-request
+radius-server key 7 01070A114F07275B2D5940065A121B07
+!
+radius server 10.1.100.152
+ address ipv4 10.1.100.152 auth-port 1812 acct-port 1813
+!
+radius server AZ-CLEARPASS-01
+ address ipv4 10.200.4.18 auth-port 1645 acct-port 1646
+ key 7 03255E4E5318681E44574258111357002402737D0D176D7504
+!
+radius server C1-CLEARPASS-01
+ address ipv4 10.1.100.216 auth-port 1645 acct-port 1646
+ key 7 132412575E1B4D78217A736E33234F0B362B590F7C7C0B0319
+!
+banner login ^CC
+High Speed 130
+^C
+banner motd ^CC
+##################################################################
+#                                                                #
+#  **********************! ASTROS WARNING !********************  #
+#                                                                #
+#   UNAUTHORIZED ACCESS OR USE TO THIS DEVICE IS PROHIBITED      #
+#   AND IS A CRIME UNDER FEDERAL LAW. YOU MUST HAVE EXPLICIT     #
+#   PERMISSION TO ACCESS OR CONFIGURE THIS DEVICE. THERE IS      #
+#   NO RIGHT TO PRIVACY ON THIS DEVICE. THIS SYSTEM IS EQUIPPED  #
+#   WITH A SECURITY SYSTEM INTENDED TO PREVENT AND RECORD ALL    #
+#   ACTIVITIES PERFORMED ON THIS DEVICE. VIOLATIONS OF THIS      #
+#   POLICY WILL RESULT IN DISCIPLINARY ACTION, AND MAY BE        #
+#   REPORTED TO LAW ENFORCEMENT !!!                              #
+#                                                                #
+#                                                                #
+##################################################################
+^C
+!
+line con 0
+ exec-timeout 300 0
+ password 7 122D061F361C02246B
+line vty 0 4
+ exec-timeout 300 0
+ password 7 09784D013D1219324A
+ transport input telnet ssh
+line vty 5 15
+ exec-timeout 300 0
+ password 7 09784D013D1219324A
+ transport input telnet ssh
+!
+ntp server 10.5.0.1
+mac address-table notification change
+mac address-table notification threshold
+mac address-table notification mac-move
+mac address-table aging-time 30
+end

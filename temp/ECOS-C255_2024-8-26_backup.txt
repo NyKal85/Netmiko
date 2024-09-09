@@ -1,0 +1,306 @@
+Building configuration...
+
+Current configuration : 7891 bytes
+!
+! Last configuration change at 15:21:00 CDT Mon Aug 26 2024 by mcaudle
+! NVRAM config last updated at 15:21:00 CDT Mon Aug 26 2024 by mcaudle
+!
+version 15.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec localtime show-timezone
+service password-encryption
+!
+hostname ECOS-C255
+!
+boot-start-marker
+boot-end-marker
+!
+logging buffered 32000
+enable secret 5 $1$1FIr$PJzoYMKeUwFhTlIP8xMuS.
+!
+username admin privilege 15 secret 5 $1$UuZ9$UPXT5cReKaZdFjnmCpYOT0
+aaa new-model
+!
+!
+aaa authentication login default group radius local
+aaa authentication login NO-AAA line
+!
+!
+!
+!
+!
+!
+aaa session-id common
+clock timezone CST -6 0
+clock summer-time CDT recurring
+!
+coap proxy
+ security none
+ start
+ exit
+!
+!
+!
+!
+!
+!
+!
+ip domain-name astros.com
+ip name-server 10.1.100.152
+vtp domain astros.com
+vtp mode transparent
+!
+!
+!
+!
+!
+authentication mac-move permit
+!
+crypto pki trustpoint TP-self-signed-993534976
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-993534976
+ revocation-check none
+ rsakeypair TP-self-signed-993534976
+!
+crypto pki trustpoint TP-self-signed-993532416
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-993532416
+ revocation-check none
+ rsakeypair TP-self-signed-993532416
+!
+!
+crypto pki certificate chain TP-self-signed-993534976
+ certificate self-signed 01
+  30820229 30820192 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  30312E30 2C060355 04031325 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 39393335 33343937 36301E17 0D313930 37323531 38303731 
+  325A170D 32303031 30313030 30303030 5A303031 2E302C06 03550403 1325494F 
+  532D5365 6C662D53 69676E65 642D4365 72746966 69636174 652D3939 33353334 
+  39373630 819F300D 06092A86 4886F70D 01010105 0003818D 00308189 02818100 
+  CBA33A2D 15735EB0 D027B0C7 05ABC323 03FDE74B 7A7BE482 106BA2C4 18905959 
+  A849E82F 220783EA 3F93EF2B 52649AC4 0B6600CD A29660B2 2FDDE4D7 FF0EC7AE 
+  0A63038A 416F8BC4 02A31292 C86C2705 0F90697F 5CA762F1 11A091AD 2CE3A791 
+  E5132CDF F0D23AA4 037C436F 309C523B EE559F5B 31158591 6BB1C075 D10A1687 
+  02030100 01A35330 51300F06 03551D13 0101FF04 05300301 01FF301F 0603551D 
+  23041830 16801407 297B5D1C 51454D75 C4292CDA BFBA3807 77C6D530 1D060355 
+  1D0E0416 04140729 7B5D1C51 454D75C4 292CDABF BA380777 C6D5300D 06092A86 
+  4886F70D 01010505 00038181 006C4A11 964DC117 2DC8597A 1650C4ED 05C79B95 
+  BEE78939 73CBF67F 13A7930D 1CBDD723 B41BF4B4 489DA329 9D135043 25312FB8 
+  0BD81AC6 D6E07210 610BC95A 22F8864B BBF27DAF 043774C8 D2826FFE C0C6BB7F 
+  69153766 627E035A FDE93AA6 9B9BE14E 79E3C57A DCE6C189 F3CB0DA6 4FA6E972 
+  34A60F3E 71D34EFE A1C2CF86 AC
+  	quit
+crypto pki certificate chain TP-self-signed-993532416
+archive
+ log config
+  logging enable
+  hidekeys
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+errdisable recovery cause mac-limit
+errdisable recovery interval 30
+device classifier
+!
+!
+vlan 5
+ name MGMT
+!
+vlan 98
+ name ECOS
+!
+vlan 3000
+ name IT_Management
+!
+vlan 3001
+ name Business
+!
+vlan 3002
+ name Retail_vlan
+!
+vlan 3003
+ name Facilities_OT
+!
+vlan 3004
+ name BBOps_OT
+!
+vlan 3005
+ name BPE_OT
+!
+!
+!
+!
+!
+interface Bluetooth0
+ description bluetoothInterface
+ no ip address
+ no ip route-cache
+ shutdown
+!
+interface Port-channel1
+ description PO1-TRUNK-
+ switchport trunk allowed vlan 5,98
+ switchport mode trunk
+!
+interface FastEthernet1/0/1
+ switchport access vlan 98
+ switchport mode access
+ switchport port-security maximum 5
+ switchport port-security
+ storm-control broadcast level 50.00
+ storm-control multicast level 50.00
+ storm-control unicast level 50.00
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface FastEthernet1/0/2
+ switchport access vlan 98
+ switchport mode access
+ switchport port-security maximum 5
+ switchport port-security
+ storm-control broadcast level 50.00
+ storm-control multicast level 50.00
+ storm-control unicast level 50.00
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface FastEthernet1/0/3
+ switchport access vlan 98
+ switchport mode access
+ switchport port-security maximum 5
+ switchport port-security
+ storm-control broadcast level 50.00
+ storm-control multicast level 50.00
+ storm-control unicast level 50.00
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface FastEthernet1/0/4
+ switchport access vlan 98
+ switchport mode access
+ switchport port-security maximum 5
+ switchport port-security
+ storm-control broadcast level 50.00
+ storm-control multicast level 50.00
+ storm-control unicast level 50.00
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface FastEthernet1/0/5
+ switchport access vlan 98
+ switchport mode access
+ switchport port-security maximum 5
+ switchport port-security
+ storm-control broadcast level 50.00
+ storm-control multicast level 50.00
+ storm-control unicast level 50.00
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface FastEthernet1/0/6
+ switchport access vlan 98
+ switchport mode access
+ storm-control broadcast level 50.00
+ storm-control multicast level 50.00
+ storm-control unicast level 50.00
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface FastEthernet1/0/7
+ switchport access vlan 98
+ switchport mode access
+ switchport port-security maximum 5
+ switchport port-security
+ storm-control broadcast level 50.00
+ storm-control multicast level 50.00
+ storm-control unicast level 50.00
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface FastEthernet1/0/8
+ switchport access vlan 98
+ switchport mode access
+ switchport port-security maximum 5
+ switchport port-security
+ storm-control broadcast level 50.00
+ storm-control multicast level 50.00
+ storm-control unicast level 50.00
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/1
+ description TRUNK-ECOS-Core-G1/0/12
+ switchport trunk allowed vlan 5,98
+ switchport mode trunk
+ no macro auto processing
+!
+interface GigabitEthernet1/0/2
+ description TRUNK-ECOS-Core-G2/0/12
+ switchport trunk allowed vlan 5,98
+ switchport mode trunk
+ no macro auto processing
+!
+interface Vlan1
+ no ip address
+ no ip route-cache
+ shutdown
+!
+interface Vlan5
+ ip address 10.5.0.70 255.255.254.0
+ no ip route-cache
+!
+ip default-gateway 10.5.0.1
+no ip http server
+no ip http secure-server
+!
+ip access-list extended ALLOW_DHCP
+ permit udp any eq bootpc any eq bootps
+ permit udp any eq bootps any eq bootpc
+ip access-list extended ALLOW_TO_GATEWAY
+ permit ip any host 192.168.200.1
+ permit ip host 192.168.200.1 any
+ip access-list extended DENY_INTRA_VLAN
+ permit ip 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+ permit icmp 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+ permit tcp 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+ permit udp 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+logging trap errors
+logging source-interface Vlan5
+logging host 10.1.100.15
+snmp-server community cHu5EkuCAswAzA@ RO
+snmp-server community 0V=jBoses]vp RW
+snmp-server community wiseSh@pe80 RO
+snmp-server contact "ECOSSW"
+snmp-server chassis-id ECOS-C255
+snmp-server enable traps snmp authentication linkdown linkup coldstart warmstart
+snmp-server enable traps config
+snmp-server enable traps entity
+snmp-server enable traps mac-notification change move threshold
+snmp-server host 10.1.100.175 cHu5EkuCAswAzA@  mac-notification snmp
+snmp mib flash cache
+!
+!
+radius server DC02
+ address ipv4 10.1.100.152 auth-port 1812 acct-port 1813
+ key 7 01070A114F07275B2D5940065A121B07
+!
+!
+line con 0
+ password 7 01570E24491B4B5F71
+line vty 0 4
+ exec-timeout 600 0
+ privilege level 15
+ password 7 00401B26164B46565F
+ transport input ssh
+line vty 5 15
+ exec-timeout 600 0
+ privilege level 15
+ password 7 00401B26164B46565F
+ transport input ssh
+!
+ntp server 10.5.0.1
+mac address-table notification change
+mac address-table notification threshold
+mac address-table notification mac-move
+end

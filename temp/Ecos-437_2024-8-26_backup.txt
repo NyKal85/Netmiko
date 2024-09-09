@@ -1,0 +1,275 @@
+Building configuration...
+
+Current configuration : 7448 bytes
+!
+! Last configuration change at 12:34:38 CDT Mon Aug 26 2024 by mcaudle
+! NVRAM config last updated at 12:34:38 CDT Mon Aug 26 2024 by mcaudle
+!
+version 15.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+!
+hostname Ecos-437
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$VWbb$f07u35lDiKvSGQAP8bctb0
+!
+username admin privilege 15 secret 5 $1$qJ93$GLE5M7kKigsGkuJYT8vvL0
+aaa new-model
+!
+!
+aaa authentication login default group radius local
+aaa authentication login NO-AAA line
+!
+!
+!
+!
+!
+!
+aaa session-id common
+clock timezone CST -6 0
+clock summer-time CDT recurring
+!
+coap proxy
+ security none
+ start
+ exit
+!
+!
+!
+!
+!
+!
+!
+ip domain-name astros.com
+ip name-server 10.1.100.152
+vtp domain astros.com
+vtp mode transparent
+!
+!
+!
+!
+!
+authentication mac-move permit
+!
+crypto pki trustpoint TP-self-signed-993531904
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-993531904
+ revocation-check none
+ rsakeypair TP-self-signed-993531904
+!
+!
+crypto pki certificate chain TP-self-signed-993531904
+ certificate self-signed 01
+  30820229 30820192 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  30312E30 2C060355 04031325 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 39393335 33313930 34301E17 0D323030 31303831 39323932 
+  355A170D 33303031 30313030 30303030 5A303031 2E302C06 03550403 1325494F 
+  532D5365 6C662D53 69676E65 642D4365 72746966 69636174 652D3939 33353331 
+  39303430 819F300D 06092A86 4886F70D 01010105 0003818D 00308189 02818100 
+  973FAF4A 76D657EA D7E77A5A AE5D7C26 732DE1D4 90E649FA CAB0B66A BA942FF2 
+  3A059EF2 3FB00516 9F960706 67ACBB6E 139CDDAE E6C90110 5E4DCDE7 B6946D3C 
+  360C6FC6 CAD78D1F E73772FE B32F6F2E 78F63B3C 2095DF30 03277397 D8EFC5F1 
+  1B112065 AF933423 55EBDE8F D10D2BD9 EE5FA457 E8021918 90E552C3 5FD313FF 
+  02030100 01A35330 51300F06 03551D13 0101FF04 05300301 01FF301F 0603551D 
+  23041830 168014AA CEFFA419 B4F61758 A4B75F3C 24394612 B0E58C30 1D060355 
+  1D0E0416 0414AACE FFA419B4 F61758A4 B75F3C24 394612B0 E58C300D 06092A86 
+  4886F70D 01010505 00038181 0063B859 D46EFBE6 D39B2F6F 51856315 4C3DA0B8 
+  DCA2F294 4C1E3935 D8B7A395 9389B007 39DF40BB 3C0DC060 2054FCE1 9D0AC437 
+  265D4EBA 6E4C1979 866B7189 5FAE0AEC 9207EEAB EE740215 0421016D A3AE3F97 
+  71ADBA44 80F35560 F739A2A1 610F3467 4EBF9A17 E37F62A3 D6A28548 FF891FC5 
+  7759F309 3D38115F 8284B206 80
+  	quit
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+errdisable recovery cause mac-limit
+errdisable recovery interval 30
+device classifier
+service-instance mdns-sd service "CDB_BT" regtype _cdb._tcp domain local 
+ target-hostname cdbHost.local
+ priority 100
+ port 80
+ txt cdbBT.txt
+ ipv4addr 172.16.0.1
+!
+!
+!
+vlan 5
+ name MGMT
+!
+vlan 98
+ name ECOS
+!
+!
+!
+!
+!
+interface Bluetooth0
+ description bluetoothInterface
+ no ip address
+ no ip route-cache
+ shutdown
+!
+interface FastEthernet1/0/1
+ switchport access vlan 98
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ storm-control broadcast level 50.00
+ storm-control multicast level 50.00
+ storm-control unicast level 50.00
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface FastEthernet1/0/2
+ switchport access vlan 98
+ switchport mode access
+ switchport port-security maximum 5
+ switchport port-security
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ storm-control broadcast level 50.00
+ storm-control multicast level 50.00
+ storm-control unicast level 50.00
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface FastEthernet1/0/3
+ switchport access vlan 98
+ switchport mode access
+ switchport port-security maximum 5
+ switchport port-security
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ storm-control broadcast level 50.00
+ storm-control multicast level 50.00
+ storm-control unicast level 50.00
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface FastEthernet1/0/4
+ switchport mode access
+ switchport port-security maximum 5
+ switchport port-security
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ storm-control broadcast level 50.00
+ storm-control multicast level 50.00
+ storm-control unicast level 50.00
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface FastEthernet1/0/5
+ switchport access vlan 98
+ switchport mode access
+ switchport port-security maximum 5
+ switchport port-security
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ storm-control broadcast level 50.00
+ storm-control multicast level 50.00
+ storm-control unicast level 50.00
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface FastEthernet1/0/6
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ storm-control broadcast level 50.00
+ storm-control multicast level 50.00
+ storm-control unicast level 50.00
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface FastEthernet1/0/7
+ switchport mode access
+ switchport port-security maximum 5
+ switchport port-security
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ storm-control broadcast level 50.00
+ storm-control multicast level 50.00
+ storm-control unicast level 50.00
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface FastEthernet1/0/8
+ switchport mode access
+ switchport port-security maximum 5
+ switchport port-security
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ storm-control broadcast level 50.00
+ storm-control multicast level 50.00
+ storm-control unicast level 50.00
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/1
+ description ECOS-Coreg1/0/10
+ switchport trunk allowed vlan 5,98
+ switchport mode trunk
+ no macro auto processing
+!
+interface GigabitEthernet1/0/2
+ switchport trunk allowed vlan 5,98
+ switchport mode trunk
+ no macro auto processing
+!
+interface Vlan1
+ no ip address
+ no ip route-cache
+ shutdown
+!
+interface Vlan5
+ ip address 10.5.1.27 255.255.254.0
+ no ip route-cache
+!
+ip default-gateway 10.5.0.1
+no ip http server
+no ip http secure-server
+!
+ip access-list extended ALLOW_DHCP
+ permit udp any eq bootpc any eq bootps
+ permit udp any eq bootps any eq bootpc
+ip access-list extended ALLOW_TO_GATEWAY
+ permit ip any host 192.168.200.1
+ permit ip host 192.168.200.1 any
+ip access-list extended DENY_INTRA_VLAN
+ permit ip 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+ permit icmp 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+ permit tcp 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+ permit udp 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+snmp-server community wiseSh@pe80 RO
+snmp-server enable traps mac-notification change move threshold
+!
+!
+radius server DC02
+ address ipv4 10.1.100.152 auth-port 1812 acct-port 1813
+ key 7 01070A114F07275B2D5940065A121B07
+!
+!
+line con 0
+ password 7 01570E24491B4B5F71
+line vty 0 4
+ exec-timeout 600 0
+ privilege level 15
+ password 7 08186C4205320B47054A
+ transport input ssh
+line vty 5 15
+ exec-timeout 600 0
+ privilege level 15
+ password 7 08186C4205320B47054A
+ transport input ssh
+!
+ntp server 10.5.0.1
+mac address-table notification change
+mac address-table notification threshold
+mac address-table notification mac-move
+end

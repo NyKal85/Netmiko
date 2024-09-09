@@ -1,0 +1,357 @@
+Building configuration...
+
+Current configuration : 7895 bytes
+!
+! Last configuration change at 15:20:54 CDT Mon Aug 26 2024 by mcaudle
+! NVRAM config last updated at 15:20:54 CDT Mon Aug 26 2024 by mcaudle
+!
+version 12.2
+no service pad
+service timestamps debug datetime msec localtime show-timezone
+service timestamps log datetime msec localtime show-timezone
+service password-encryption
+service sequence-numbers
+!
+hostname cst1-sonosvideo-mmp
+!
+boot-start-marker
+boot-end-marker
+!
+logging buffered 51200
+logging console critical
+enable secret 5 $1$UCzC$9nJfi8eZes165Yfu.3FR10
+!
+username admin privilege 15 secret 5 $1$.Wh7$cJ1y6tADcWpRgtBeoHpeX1
+aaa new-model
+!
+!
+aaa authentication login default local group radius
+aaa authentication login NO-AAA enable
+!
+!
+!
+!
+!
+aaa session-id common
+clock timezone CST -6 0
+clock summer-time CDT recurring
+system mtu routing 1500
+vtp domain astros.com
+vtp mode transparent
+authentication mac-move permit
+no ip source-route
+!
+!
+ip domain-name astros.com
+ip name-server 10.1.100.151
+ip name-server 10.1.100.152
+!
+!
+crypto pki trustpoint TP-self-signed-3960049664
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-3960049664
+ revocation-check none
+ rsakeypair TP-self-signed-3960049664
+!
+!
+crypto pki certificate chain TP-self-signed-3960049664
+ certificate self-signed 01
+  30820256 308201BF A0030201 02020101 300D0609 2A864886 F70D0101 04050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 33393630 30343936 3634301E 170D3933 30333031 30303030 
+  35395A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D33 39363030 
+  34393636 3430819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281 
+  8100CD44 F4C9C625 F0FF3F8B 8F89E3FE 5E212C78 5F85BF97 B4982383 6DA479D6 
+  853D0000 42AE04EC 04690D7C A2CE104A 522F0086 7E7DB4CF D3A6F2E3 CBD97407 
+  583CCA33 6D6406A4 5682BEF1 3340ACAA 2A0A9AC3 BF8BC6AF 26DA73A3 FAC45C9B 
+  F370AF3F 8FD4F184 2FEC2EE2 49C055B4 EAB0485D 3FF7432A 94B8C4AB 8C6873F1 
+  161B0203 010001A3 7E307C30 0F060355 1D130101 FF040530 030101FF 30290603 
+  551D1104 22302082 1E637374 312D736F 6E6F7376 6964656F 2D6D6D70 2E617374 
+  726F732E 636F6D30 1F060355 1D230418 30168014 69565017 A80BB7CB 34C44792 
+  21AB021A 4B43E01D 301D0603 551D0E04 16041469 565017A8 0BB7CB34 C4479221 
+  AB021A4B 43E01D30 0D06092A 864886F7 0D010104 05000381 81007040 CCC21EBD 
+  774F6C5B 55D172BF 4A6A36AB 6C744A2A 5AD7394E F7680008 DBFAB35C 5CCDB491 
+  B8A82970 B1A6748E DA210D04 D069EE5F 229C57B5 25D56963 4E405BB8 BFAF8429 
+  C54FBAE1 190BB0D9 73A19C38 22E82D35 AE890049 B770411E 451D18BC 93FBC172 
+  EC04471E CCC943A7 034A3D07 484EECC6 20B40930 CB2FCF60 EF01
+  	quit
+!
+!
+!
+archive
+ log config
+  logging enable
+  hidekeys
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+!
+vlan access-map DENY_INTRA_VLAN 5
+ match ip address ALLOW_DHCP
+ action forward
+vlan access-map DENY_INTRA_VLAN 6
+ match ip address ALLOW_TO_GATEWAY
+ action forward
+vlan access-map DENY_INTRA_VLAN 10
+ match ip address DENY_INTRA_VLAN
+ action drop
+vlan access-map DENY_INTRA_VLAN 20
+ action forward
+!
+vlan filter DENY_INTRA_VLAN vlan-list 3
+vlan internal allocation policy ascending
+!
+vlan 2
+ name Internet
+!
+vlan 3
+ name ConferenceCenterWWW
+!
+vlan 4
+ name DMZ
+!
+vlan 5
+ name Management
+!
+vlan 6
+ name TM-Servers
+!
+vlan 7
+ name MLBAM
+!
+vlan 8
+ name MrMiller
+!
+vlan 9
+ name TM-AccessManager
+!
+vlan 10
+ name TM-Wireless
+!
+vlan 11
+ name Continuum
+!
+vlan 12
+ name GhostVLAN
+!
+vlan 13
+ name ANC
+!
+vlan 14
+ name ConferenceCenterWWW2
+!
+vlan 15
+ name ITTest
+!
+vlan 16-17 
+!
+vlan 18
+ name Roof
+!
+vlan 19
+ name video_conferance
+!
+vlan 20
+ name oldNSN-Roof
+!
+vlan 25
+ name Astros_Client
+!
+vlan 29
+ name AVID
+!
+vlan 30
+ name NSN-Secure
+!
+vlan 31
+ name SAN_Management
+!
+vlan 33
+ name MLB_BOC
+!
+vlan 35
+ name TM-Clients
+!
+vlan 36
+ name TM-BO-Kiosk
+!
+vlan 46
+ name HABC_Wireless
+!
+vlan 48
+ name Retail
+!
+vlan 50-51,55 
+!
+vlan 60
+ name at&t_wan
+!
+vlan 63
+ name LyncEdge-DMZ
+!
+vlan 65
+ name Comcast_ISP
+!
+vlan 70
+ name Weatherbug
+!
+vlan 80
+ name Ziris
+!
+vlan 90
+ name Platinum
+!
+vlan 125
+ name Client-VoIP
+!
+vlan 130
+ name Micros
+!
+vlan 140
+ name STADIS_Retail
+!
+vlan 145
+ name STADIS
+!
+vlan 150
+ name NetvuPoint
+!
+vlan 3000
+ name IT_Management
+!
+vlan 3001
+ name Business
+!
+vlan 3002
+ name Retail_vlan
+!
+vlan 3003
+ name Facilities_OT
+!
+vlan 3004
+ name BBOps_OT
+!
+vlan 3005
+ name BPE_OT
+!
+!
+!
+!
+!
+!
+interface GigabitEthernet0/1
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet0/2
+ description Ticket Kiosks
+ switchport access vlan 3
+!
+interface GigabitEthernet0/3
+ description Ticket Kiosks
+ switchport access vlan 3
+ switchport trunk allowed vlan 1,3,5,25
+ switchport mode trunk
+!
+interface GigabitEthernet0/4
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet0/5
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet0/6
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet0/7
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet0/8
+ switchport trunk allowed vlan 3,5,25
+ switchport mode trunk
+!
+interface Vlan1
+ ip address 10.1.1.8 255.255.0.0
+ no ip redirects
+ no ip route-cache
+ shutdown
+!
+interface Vlan5
+ ip address 10.5.0.19 255.255.254.0
+ no ip redirects
+ no ip route-cache
+!
+ip default-gateway 10.5.0.1
+no ip http server
+no ip http secure-server
+!
+ip access-list extended ALLOW_DHCP
+ permit udp any eq bootpc any eq bootps
+ permit udp any eq bootps any eq bootpc
+ip access-list extended ALLOW_TO_GATEWAY
+ permit ip any host 192.168.200.1
+ permit ip host 192.168.200.1 any
+ip access-list extended DENY_INTRA_VLAN
+ permit ip 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+ permit icmp 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+ permit tcp 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+ permit udp 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+logging esm config
+logging trap notifications
+logging facility local4
+snmp-server community cHu5EkuCAswAzA@ RO
+snmp-server community 0V=jBoses]vp RW
+snmp-server community wiseSh@pe80 RO
+snmp-server enable traps mac-notification change move threshold
+snmp-server host 10.1.100.175 cHu5EkuCAswAzA@  mac-notification snmp
+radius-server directed-request
+radius-server key 7 01070A114F07275B2D5940065A121B07
+!
+radius server DC02
+ address ipv4 10.1.100.152 auth-port 1645 acct-port 1646
+!
+!
+banner login ^CCCCC
+##################################################################
+#                                                                #
+#  **********************! ASTROS WARNING !********************  #
+#                                                                #
+#   UNAUTHORIZED ACCESS OR USE TO THIS DEVICE IS PROHIBITED      #
+#   AND IS A CRIME UNDER FEDERAL LAW. YOU MUST HAVE EXPLICIT     #
+#   PERMISSION TO ACCESS OR CONFIGURE THIS DEVICE. THERE IS      #
+#   NO RIGHT TO PRIVACY ON THIS DEVICE. THIS SYSTEM IS EQUIPPED  #
+#   WITH A SECURITY SYSTEM INTENDED TO PREVENT AND RECORD ALL    #
+#   ACTIVITIES PERFORMED ON THIS DEVICE. VIOLATIONS OF THIS      #
+#   POLICY WILL RESULT IN DISCIPLINARY ACTION, AND MAY BE        #
+#   REPORTED TO LAW ENFORCEMENT !!!                              #
+#                                                                #
+#                                                                #
+##################################################################
+^C
+!
+line con 0
+ exec-timeout 600 0
+line vty 0 4
+ exec-timeout 600 0
+ password 7 0207174F19091C7540470F1C
+ transport input ssh
+line vty 5 15
+ exec-timeout 600 0
+ password 7 06071C355E411A4D091E140E
+ transport input ssh
+!
+ntp server 129.6.15.28
+mac address-table notification change
+mac address-table notification mac-move
+mac address-table notification threshold
+mac address-table aging-time 30
+end

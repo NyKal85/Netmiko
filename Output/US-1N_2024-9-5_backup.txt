@@ -1,0 +1,797 @@
+Building configuration...
+
+Current configuration : 21131 bytes
+!
+! Last configuration change at 15:21:01 CDT Thu Sep 5 2024 by mcaudle
+! NVRAM config last updated at 15:21:02 CDT Thu Sep 5 2024 by mcaudle
+!
+version 15.0
+no service pad
+service timestamps debug datetime msec localtime show-timezone
+service timestamps log datetime msec localtime show-timezone
+service password-encryption
+service sequence-numbers
+!
+hostname US-1N
+!
+boot-start-marker
+boot-end-marker
+!
+logging buffered 51200
+logging console critical
+enable secret 5 $1$fmdF$I6cqs9ebFOCNXOVODfNIZ0
+!
+username admin privilege 15 secret 5 $1$/jJO$JfSrFPxuj9c8T05lr9LVN/
+aaa new-model
+!
+!
+aaa group server radius CLEARPASS
+ server name C1-CLEARPASS-01
+ server name AZ-CLEARPASS-01
+!
+aaa authentication login default group radius local
+aaa authentication login NO-AAA enable
+aaa authentication dot1x default group CLEARPASS
+aaa authorization network default group CLEARPASS 
+aaa accounting dot1x default start-stop group CLEARPASS
+!
+!
+!
+!
+!
+aaa server radius dynamic-author
+ client 10.1.100.216 server-key 7 072E24091B1E50571D4C5051022B7728081B6D7B36234E5416
+ client 10.200.4.18 server-key 7 096D4B4C4C125E4001525F772D25743F150A4B5E332759014E
+ port 3799
+ auth-type all
+!
+aaa session-id common
+clock timezone CST -6 0
+clock summer-time CDT recurring
+switch 1 provision ws-c2960x-48ts-l
+authentication mac-move permit
+no ip source-route
+!
+!
+ip domain-name astros.com
+ip name-server 10.1.100.152
+vtp domain astros.com
+vtp mode transparent
+!
+mls qos map policed-dscp  0 14 24 30 38 to 8
+mls qos map policed-dscp  10 to 12
+mls qos map policed-dscp  12 to 14
+mls qos map policed-dscp  26 to 28
+mls qos map policed-dscp  28 to 30
+mls qos map policed-dscp  32 to 34
+mls qos map policed-dscp  34 to 36
+mls qos map policed-dscp  36 to 38
+mls qos map cos-dscp 0 8 16 24 34 46 48 56
+mls qos srr-queue output cos-map queue 1 threshold 2 4
+mls qos srr-queue output cos-map queue 1 threshold 3 5
+mls qos srr-queue output cos-map queue 2 threshold 1 2
+mls qos srr-queue output cos-map queue 2 threshold 2 3
+mls qos srr-queue output cos-map queue 2 threshold 3 6 7
+mls qos srr-queue output cos-map queue 3 threshold 3 0
+mls qos srr-queue output cos-map queue 4 threshold 3 1
+mls qos srr-queue output dscp-map queue 1 threshold 2 32 34
+mls qos srr-queue output dscp-map queue 1 threshold 3 33 40 41 42 43 44 45 46
+mls qos srr-queue output dscp-map queue 1 threshold 3 47
+mls qos srr-queue output dscp-map queue 2 threshold 1 17 18 19 20 21 22 23 26
+mls qos srr-queue output dscp-map queue 2 threshold 1 27 28 29 30 31 35 36 37
+mls qos srr-queue output dscp-map queue 2 threshold 1 38 39
+mls qos srr-queue output dscp-map queue 2 threshold 2 16 24
+mls qos srr-queue output dscp-map queue 2 threshold 3 48 49 50 51 52 53 54 55
+mls qos srr-queue output dscp-map queue 2 threshold 3 56 57 58 59 60 61 62 63
+mls qos srr-queue output dscp-map queue 3 threshold 3 0 1 2 3 4 5 6 7
+mls qos srr-queue output dscp-map queue 4 threshold 1 8 9 11 13 15
+mls qos srr-queue output dscp-map queue 4 threshold 2 12 14
+mls qos srr-queue output dscp-map queue 4 threshold 3 10
+mls qos queue-set output 1 threshold 1 100 100 100 100
+mls qos queue-set output 1 threshold 2 80 90 100 400
+mls qos queue-set output 1 threshold 3 100 100 100 400
+mls qos queue-set output 1 threshold 4 90 100 100 400
+mls qos queue-set output 1 buffers 15 30 35 20
+mls qos
+!
+template AstrosPort
+!
+!
+!
+archive
+ log config
+  logging enable
+  hidekeys
+dot1x system-auth-control
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+!
+!
+!
+!
+!
+!
+!
+vlan access-map DENY_INTRA_VLAN 5
+ match ip address ALLOW_DHCP
+ action forward
+vlan access-map DENY_INTRA_VLAN 6
+ match ip address ALLOW_TO_GATEWAY
+ action forward
+vlan access-map DENY_INTRA_VLAN 10
+ match ip address DENY_INTRA_VLAN
+ action drop
+vlan access-map DENY_INTRA_VLAN 20
+ action forward
+!
+vlan filter DENY_INTRA_VLAN vlan-list 3
+vlan internal allocation policy ascending
+!
+vlan 3
+ name Guest
+!
+vlan 5
+ name MGMT
+!
+vlan 25
+ name Astros
+!
+vlan 48
+ name Retail
+!
+vlan 75
+ name MLB-L2
+!
+vlan 732
+ name MMP-Voice
+!
+vlan 901
+ name Getty
+!
+vlan 902
+ name AP
+!
+vlan 903
+ name USA_Today
+!
+vlan 904
+ name Hou_Chron
+!
+vlan 905
+ name Floater_for_Cameras
+!
+vlan 3000
+ name IT_Management
+!
+vlan 3001
+ name Business
+!
+vlan 3002
+ name Retail_vlan
+!
+vlan 3003
+ name Facility_OT
+!
+vlan 3004
+ name BBOps_OT
+!
+vlan 3005
+ name BPE_OT
+!
+vlan 3006
+ name Cameras
+!
+vlan 3007
+ name Radio_1
+!
+vlan 3008
+ name Radio_2
+!
+lldp run
+!
+class-map match-any PRIORITY
+  match ip dscp ef 
+  match access-group name VOICE-MARKING
+class-map match-any SCAVENGER-MARKING
+  match access-group name SCAVENGER-MARKING
+class-map match-any SIGNALING-MARKING
+  match access-group name SIGNALING-MARKING
+  match ip dscp af31 
+class-map match-any VIDEO-MARKING
+  match ip dscp af41 
+  match access-group name VIDEO-MARKING
+class-map match-any VOICE-MARKING
+  match access-group name VOICE-MARKING
+  match ip dscp ef 
+class-map match-any non-client-nrt-class
+!
+policy-map ASTROS-MARKING
+ class VOICE-MARKING
+   set dscp ef
+ class VIDEO-MARKING
+   set dscp af41
+ class SIGNALING-MARKING
+   set dscp af31
+ class SCAVENGER-MARKING
+   set dscp cs1
+ class class-default
+   set dscp default
+policy-map ASTROSM
+ class VOICE-MARKING
+   set dscp ef
+ class VIDEO-MARKING
+   set dscp af41
+ class SIGNALING-MARKING
+   set dscp af31
+ class SCAVENGER-MARKING
+   set dscp cs1
+ class class-default
+   set dscp default
+policy-map ASTROS-QoS
+ class VOICE-MARKING
+ class VIDEO-MARKING
+ class SIGNALING-MARKING
+ class class-default
+policy-map PRIORITY
+ class PRIORITY
+ class VIDEO-MARKING
+ class class-default
+!
+!
+!
+!
+!
+!
+interface FastEthernet0
+ no ip address
+!
+interface GigabitEthernet1/0/1
+ description MEGAFlex-Switch
+ switchport trunk allowed vlan 5,48
+ switchport mode trunk
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/2
+ description Secretary Phone
+ switchport access vlan 25
+ switchport mode access
+ switchport port-security aging time 10
+ switchport port-security violation restrict
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/3
+ description US-Lobby-Secretary
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/4
+ description Temp POS-1 Jostens
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/5
+ description Temp POS-2 Jostens
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/6
+ description MEGAFLEX-Switch
+ switchport trunk allowed vlan 5,48
+ switchport mode trunk
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/7
+ switchport access vlan 25
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/8
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/9
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/10
+ description RetailFlex-02
+ switchport trunk allowed vlan 5,48
+ switchport mode trunk
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/11
+ switchport access vlan 25
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/12
+ description South Info Booth
+ switchport access vlan 3
+ switchport mode access
+!
+interface GigabitEthernet1/0/13
+ description MEGAFLEX
+ switchport trunk allowed vlan 5,48
+ switchport mode trunk
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/14
+ description 3rd row flex
+ switchport trunk allowed vlan 5,48
+ switchport mode trunk
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/15
+ description Megaflex switch
+ switchport trunk allowed vlan 5,48
+ switchport mode trunk
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/16
+ description TRUNK-MegaFlex
+ switchport trunk allowed vlan 5,48
+ switchport mode trunk
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/17
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/18
+ description Trunk-MEGAFLEX
+ switchport trunk allowed vlan 5,48
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/19
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/20
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/21
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/22
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/23
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/24
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/25
+ description 4th row megaflex switch
+ switchport trunk allowed vlan 5,48
+ switchport mode trunk
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/26
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/27
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/28
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/29
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/30
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/31
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/32
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/33
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/34
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/35
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/36
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/37
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/38
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/39
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/40
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/41
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/42
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/43
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/44
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/45
+ switchport access vlan 3
+ switchport mode access
+!
+interface GigabitEthernet1/0/46
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/47
+ description MLB AP Cafe
+ switchport access vlan 75
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/48
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/49
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+!
+interface GigabitEthernet1/0/50
+ switchport access vlan 3
+ switchport mode access
+ switchport port-security maximum 3
+ switchport port-security
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+!
+interface GigabitEthernet1/0/51
+ description TRUNK-US6-3850-Ten1/0/1
+ switchport mode trunk
+ service-policy input ASTROS-QoS
+!
+interface GigabitEthernet1/0/52
+!
+interface Vlan1
+ no ip address
+ no ip route-cache
+ shutdown
+!
+interface Vlan5
+ ip address 10.5.0.18 255.255.254.0
+ no ip route-cache
+!
+no ip http server
+no ip http secure-server
+!
+!
+ip access-list extended ALLOW_DHCP
+ permit udp any eq bootpc any eq bootps
+ permit udp any eq bootps any eq bootpc
+ip access-list extended ALLOW_TO_GATEWAY
+ permit ip any host 192.168.200.1
+ permit ip host 192.168.200.1 any
+ip access-list extended DENY_INTRA_VLAN
+ permit ip 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+ permit icmp 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+ permit tcp 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+ permit udp 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+ip access-list extended SKYPE-SIGNALING-MARKING
+ remark SIP
+ permit tcp any any range 5060 5069
+ permit tcp any range 5060 5069 any
+ permit udp any range 3479 3481 any
+ip access-list extended SKYPE-VOICE
+ permit ip any host 13.65.240.22
+ permit ip any host 13.66.58.59
+ permit ip any host 13.70.156.206
+ permit ip any host 13.71.145.114
+ permit ip any host 13.71.145.122
+ permit ip any host 13.75.149.223
+ permit ip any host 13.71.151.88
+ permit ip any host 13.78.120.69
+ permit ip any host 13.78.120.70
+ permit ip any host 13.78.120.99
+ permit ip any host 13.78.122.54
+ permit ip any host 13.84.216.209
+ permit ip any host 13.84.219.100
+ permit ip any host 13.84.222.249
+ permit ip any host 13.87.36.128
+ permit ip any host 13.88.17.54
+ permit ip any host 13.92.181.66
+ permit ip any host 13.92.236.241
+ permit ip any host 13.93.164.45
+ permit ip any 13.107.6.156 0.0.0.1
+ permit ip any 13.107.7.190 0.0.0.1
+ permit ip any 13.107.9.156 0.0.0.1
+ permit ip any host 23.96.32.105
+ permit ip any host 23.96.251.50
+ permit ip any host 23.96.253.65
+ permit ip any host 23.97.66.55
+ permit ip any host 23.97.78.94
+ permit ip any host 23.99.121.16
+ permit ip any host 23.99.125.4
+ permit ip any host 40.71.88.196
+ permit ip any host 40.83.120.174
+ permit ip any host 40.83.185.155
+ permit ip any host 40.83.185.230
+ permit ip any host 40.84.145.72
+ permit ip any host 40.112.187.89
+ permit ip any host 40.117.96.104
+ permit ip any host 40.117.100.187
+ permit ip any host 40.117.229.133
+ permit ip any host 40.117.229.194
+ permit ip any host 51.140.45.81
+ permit ip any host 51.140.226.217
+ permit ip any host 51.142.213.184
+ permit ip any host 52.163.58.153
+ permit ip any host 52.163.93.38
+ permit ip any host 52.172.49.206
+ permit ip any host 52.175.154.183
+ permit ip any host 52.175.158.8
+ permit ip any host 52.178.27.129
+ permit ip any host 52.178.144.25
+ permit ip any host 52.178.146.3
+ permit ip any host 52.178.146.67
+ permit ip any host 52.178.150.186
+ permit ip any host 52.185.154.106
+ permit ip any host 52.187.42.197
+ permit ip any host 52.187.78.144
+ permit ip any host 52.228.36.141
+ permit ip any host 52.230.24.83
+ permit ip any host 52.231.24.115
+ permit ip any host 52.231.204.153
+ permit ip any host 52.232.112.133
+ permit ip any host 52.232.118.68
+ permit ip any host 52.232.129.232
+ permit ip any host 65.52.144.46
+ permit ip any host 65.52.176.186
+ permit ip any host 65.52.192.203
+ permit ip any host 65.52.240.200
+ permit ip any host 65.55.239.168
+ permit ip any host 70.37.96.155
+ permit ip any host 94.245.88.28
+ permit ip any host 94.245.117.53
+ permit ip any host 104.40.178.127
+ permit ip any host 104.40.179.160
+ permit ip any host 104.42.225.143
+ permit ip any host 104.42.230.91
+ permit ip any host 104.45.225.7
+ permit ip any host 104.47.156.62
+ permit ip any host 104.211.160.244
+ permit ip any host 104.214.144.62
+ permit ip any host 104.214.144.252
+ permit ip any host 104.214.145.126
+ permit ip any host 104.214.145.173
+ permit ip any host 104.214.146.199
+ permit ip any host 111.221.96.149
+ permit ip any host 111.221.104.43
+ permit ip any host 137.116.156.3
+ permit ip any host 137.116.248.150
+ permit ip any host 137.117.17.124
+ permit ip any host 138.91.61.107
+ permit ip any host 157.55.139.177
+ permit ip any 157.55.145.0 0.0.0.127
+ permit ip any 157.55.155.0 0.0.0.127
+ permit ip any host 157.55.212.37
+ permit ip any 157.55.227.192 0.0.0.63
+ permit ip any host 168.62.104.83
+ permit ip any host 168.62.106.224
+ permit ip any host 168.63.92.133
+ permit ip any host 191.235.95.142
+ permit ip any host 191.238.160.173
+ permit ip any host 207.46.73.250
+ permit ip any host 207.46.141.38
+ permit ip any host 207.46.156.124
+ permit ip any host 207.46.216.54
+ permit ip any host 213.199.128.119
+ remark O365-ipv4-inet-only
+ permit ip any host 13.64.196.27
+ permit ip any host 13.64.198.19
+ permit ip any host 13.64.198.97
+ permit ip any host 13.64.199.41
+ permit ip any host 13.76.218.117
+ permit ip any host 13.76.219.191
+ permit ip any host 13.76.219.210
+ permit ip any host 13.91.61.249
+ permit ip any host 13.91.98.185
+ permit ip any host 13.93.216.68
+ permit ip any host 13.93.233.42
+ permit ip any host 23.97.61.137
+ permit ip any host 23.97.150.21
+ permit ip any host 23.97.152.190
+ permit ip any host 23.97.209.97
+ permit ip any host 23.99.109.44
+ permit ip any host 23.99.109.64
+ permit ip any host 23.99.116.116
+ permit ip any host 23.99.121.207
+ permit ip any host 23.100.86.91
+ permit ip any host 23.101.14.229
+ permit ip any host 23.101.30.126
+ permit ip any host 23.102.4.253
+ permit ip any host 40.113.10.78
+ permit ip any host 40.113.11.93
+ permit ip any host 40.113.14.159
+ permit ip any host 40.117.144.240
+ permit ip any host 40.117.151.29
+ permit ip any host 40.118.211.172
+ permit ip any host 40.121.144.182
+ permit ip any host 40.122.168.103
+ permit ip any host 65.52.148.27
+ permit ip any host 104.45.11.195
+ permit ip any host 104.46.38.64
+ permit ip any host 104.46.50.125
+ permit ip any host 104.209.35.177
+ permit ip any host 104.215.146.200
+ permit ip any host 104.215.198.144
+ permit ip any host 111.221.111.196
+ permit ip any host 137.116.66.126
+ permit ip any host 137.116.81.187
+ permit ip any host 168.62.29.225
+ permit ip any host 168.62.43.8
+ permit ip any host 168.63.18.79
+ permit ip any host 168.63.29.74
+ permit ip any host 168.63.100.61
+ permit ip any host 168.63.138.56
+ permit ip any host 168.63.172.54
+ permit ip any host 168.63.213.238
+ permit ip any host 191.237.218.239
+ permit udp any any range 49152 57500
+ permit ip any host 168.62.204.209
+ permit ip any host 40.76.8.142
+ permit ip any host 40.76.12.4
+ permit ip any host 40.76.12.162
+ permit ip any host 40.113.8.255
+ permit ip any host 65.52.160.218
+ permit ip any host 65.52.184.75
+ permit ip any host 65.52.196.64
+ permit ip any host 70.37.97.234
+ permit ip any host 94.245.108.85
+ permit ip any host 104.41.207.73
+ permit ip any host 104.42.231.28
+ permit ip any host 104.43.140.223
+ permit ip any host 157.55.177.39
+ permit ip any host 157.55.184.223
+ permit ip any host 157.55.80.94
+ permit ip any host 168.61.146.25
+ permit ip any host 168.61.149.17
+ permit ip any host 168.61.170.80
+ permit ip any host 168.61.172.71
+ permit ip any host 207.46.134.255
+ permit ip any host 207.46.153.155
+ permit ip any host 40.76.1.176
+ permit tcp any any range 49152 57500
+ permit udp any range 3479 3481 any
+ permit tcp any range 49152 57500 any
+ip access-list extended SKYPE-VOICE-MARKING
+ remark SKYPE-VOICE
+ permit udp any any range 49152 57500
+logging trap debugging
+logging host 10.1.100.15
+!
+snmp-server community cHu5EkuCAswAzA@ RO
+snmp-server community 0V=jBoses]vp RW
+snmp-server community wiseSh@pe80 RO
+snmp-server enable traps mac-notification change move threshold
+snmp-server host 10.1.100.175 cHu5EkuCAswAzA@  mac-notification snmp
+!
+radius-server host 10.1.100.152 auth-port 1812 acct-port 1813
+radius-server directed-request
+radius-server key 7 01070A114F07275B2D5940065A121B07
+!
+radius server AZ-CLEARPASS-01
+ address ipv4 10.200.4.18 auth-port 1645 acct-port 1646
+ key 7 06270A641959404B0F4949560A05762704006B6C07375F4114
+!
+radius server C1-CLEARPASS-01
+ address ipv4 10.1.100.216 auth-port 1645 acct-port 1646
+ key 7 096D4B4C4C125E4001525F772D25743F150A4B5E332759014E
+!
+!
+banner login ^C
+   UNAUTHORIZED ACCESS OR USE TO THIS DEVICE IS PROHIBITED     
+   AND IS A CRIME UNDER FEDERAL LAW. YOU MUST HAVE EXPLICIT    
+   PERMISSION TO ACCESS OR CONFIGURE THIS DEVICE. THERE IS     
+   NO RIGHT TO PRIVACY ON THIS DEVICE. THIS SYSTEM IS EQUIPPED 
+   WITH A SECURITY SYSTEM INTENDED TO PREVENT AND RECORD ALL   
+   ACTIVITIES PERFORMED ON THIS DEVICE. VIOLATIONS OF THIS     
+   POLICY WILL RESULT IN DISCIPLINARY ACTION, AND MAY BE       
+   REPORTED TO LAW ENFORCEMENT !!! ^C
+banner motd ^C
+   UNAUTHORIZED ACCESS OR USE TO THIS DEVICE IS PROHIBITED     
+   AND IS A CRIME UNDER FEDERAL LAW. YOU MUST HAVE EXPLICIT    
+   PERMISSION TO ACCESS OR CONFIGURE THIS DEVICE. THERE IS     
+   NO RIGHT TO PRIVACY ON THIS DEVICE. THIS SYSTEM IS EQUIPPED 
+   WITH A SECURITY SYSTEM INTENDED TO PREVENT AND RECORD ALL   
+   ACTIVITIES PERFORMED ON THIS DEVICE. VIOLATIONS OF THIS     
+   POLICY WILL RESULT IN DISCIPLINARY ACTION, AND MAY BE       
+   REPORTED TO LAW ENFORCEMENT !!! 
+^C
+!
+line con 0
+ exec-timeout 600 0
+ login authentication NO-AAA
+line vty 0 4
+ exec-timeout 600 0
+ password 7 1220251B1E2002543D6A
+ length 0
+ transport input ssh
+line vty 5 15
+ exec-timeout 600 0
+ password 7 1220251B1E2002543D6A
+ transport input ssh
+!
+ntp server 10.5.0.1
+mac address-table notification change
+mac address-table notification threshold
+mac address-table notification mac-move
+mac address-table aging-time 30
+end

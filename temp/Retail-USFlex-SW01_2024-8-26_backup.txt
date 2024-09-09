@@ -1,0 +1,407 @@
+Building configuration...
+
+Current configuration : 8734 bytes
+!
+! Last configuration change at 15:20:54 CDT Mon Aug 26 2024 by admin
+! NVRAM config last updated at 15:20:54 CDT Mon Aug 26 2024 by admin
+!
+version 12.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+!
+hostname Retail-USFlex-SW01
+!
+enable secret 5 $1$5mZL$biB8Sg0NwfnPrt/3bRbQO/
+!
+username admin privilege 15 secret 5 $1$oMJ5$Wc2SWVFVrCg8c7LHPJnpm1
+aaa new-model
+!
+!
+aaa authentication login default local
+!
+!
+!
+aaa session-id common
+clock timezone CST -6
+clock summer-time CDT recurring
+errdisable recovery cause bpduguard
+errdisable recovery cause security-violation
+errdisable recovery cause dhcp-rate-limit
+errdisable recovery cause loopback
+errdisable recovery interval 45
+ip subnet-zero
+ip domain-name astros.com
+ip name-server 10.1.100.172
+ip name-server 10.1.100.173
+!
+vtp mode transparent
+!
+!
+!
+!
+!
+archive
+ log config
+  logging enable
+  hidekeys
+ path tftp://10.1.100.234/$h-$t
+ write-memory
+ time-period 43829
+mac address-table notification change
+mac address-table aging-time 30
+!
+spanning-tree mode rapid-pvst
+spanning-tree extend system-id
+!
+vlan internal allocation policy ascending
+!
+vlan access-map DENY_INTRA_VLAN 5
+ action forward
+ match ip address ALLOW_DHCP
+vlan access-map DENY_INTRA_VLAN 6
+ action forward
+ match ip address ALLOW_TO_GATEWAY
+vlan access-map DENY_INTRA_VLAN 10
+ action drop
+ match ip address DENY_INTRA_VLAN
+vlan access-map DENY_INTRA_VLAN 20
+ action forward
+!
+vlan filter DENY_INTRA_VLAN vlan-list 3
+!
+vlan 3
+ name Guest
+!
+vlan 5
+ name MGMT
+!
+vlan 48
+ name Retail
+!
+vlan 3000
+ name IT_Management
+!
+vlan 3001
+ name Business
+!
+vlan 3002
+ name Retail_vlan
+!
+vlan 3003
+ name Facilities_OT
+!
+vlan 3004
+ name BBOps_OT
+!
+vlan 3005
+ name BPE_OT
+!
+!
+!
+interface FastEthernet0/1
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/2
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/3
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/4
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/5
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/6
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/7
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/8
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/9
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/10
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/11
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/12
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/13
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/14
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/15
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/16
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/17
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/18
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/19
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/20
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/21
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/22
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/23
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/24
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/25
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/26
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/27
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/28
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/29
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/30
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/31
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/32
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/33
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/34
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/35
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/36
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/37
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/38
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/39
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/40
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/41
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/42
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/43
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/44
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/45
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/46
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/47
+ switchport access vlan 48
+ switchport mode access
+ spanning-tree portfast
+!
+interface FastEthernet0/48
+ switchport trunk encapsulation dot1q
+ switchport mode trunk
+ spanning-tree portfast
+!
+interface GigabitEthernet0/1
+ switchport mode dynamic desirable
+!
+interface GigabitEthernet0/2
+ switchport mode dynamic desirable
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan5
+ ip address 10.5.1.180 255.255.254.0
+!
+ip default-gateway 10.5.0.1
+ip classless
+no ip http server
+no ip http secure-server
+!
+ip access-list extended ALLOW_DHCP
+ permit udp any eq bootpc any eq bootps
+ permit udp any eq bootps any eq bootpc
+ip access-list extended ALLOW_TO_GATEWAY
+ permit ip any host 192.168.200.1
+ permit ip host 192.168.200.1 any
+ip access-list extended DENY_INTRA_VLAN
+ permit ip 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+ permit icmp 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+ permit tcp 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+ permit udp 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+!
+snmp-server community cHu5EkuCAswAzA@ RO
+snmp-server community wiseSh@pe80 RO
+snmp-server location USFlex-SW01
+snmp-server contact ASTROSIT 713-259-8844
+snmp-server enable traps snmp authentication linkdown linkup coldstart warmstart
+snmp-server enable traps entity
+snmp-server enable traps config
+radius-server host 10.1.100.152 auth-port 1812 acct-port 1813
+radius-server directed-request
+radius-server key 7 01070A114F07275B2D5940065A121B07
+!
+control-plane
+!
+banner motd ^C
+   UNAUTHORIZED ACCESS OR USE TO THIS DEVICE IS PROHIBITED     
+   AND IS A CRIME UNDER FEDERAL LAW. YOU MUST HAVE EXPLICIT    
+   PERMISSION TO ACCESS OR CONFIGURE THIS DEVICE. THERE IS     
+   NO RIGHT TO PRIVACY ON THIS DEVICE. THIS SYSTEM IS EQUIPPED 
+   WITH A SECURITY SYSTEM INTENDED TO PREVENT AND RECORD ALL   
+   ACTIVITIES PERFORMED ON THIS DEVICE. VIOLATIONS OF THIS     
+   POLICY WILL RESULT IN DISCIPLINARY ACTION, AND MAY BE       
+   REPORTED TO LAW ENFORCEMENT !!! 
+^C
+!
+line con 0
+line vty 0 4
+ password 7 063F2F2D406507491256
+ transport input ssh
+line vty 5 15
+ password 7 063F2F2D406507491256
+ transport input ssh
+!
+ntp clock-period 17180510
+ntp server 10.5.0.1
+end

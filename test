@@ -1,0 +1,12 @@
+    CHECK 'Union1_515a_us': {'device_type': 'cisco_ios', 'host': '10.5.0.98', 'username': 'mcaudle',
+                       'password': '(0)Letters!',
+                       'secret': 'Y@llKn0w!'},
+
+    #'B_30CST1': {'device_type': 'cisco_ios', 'host': '10.210.0.3', 'username': 'admin', 'password': '$limWombat27',
+    #            'secret': '$limWombat27'}
+    #'cst1_420a_us': {'device_type': 'cisco_ios', 'host': '10.5.0.15', 'username': 'mcaudle', 'password': '(0)Letters!',
+    #                 'secret': 'Y@llKn0w!'},
+    #'US_2N': {'device_type': 'cisco_ios', 'host': '10.5.0.16', 'username': 'mcaudle', 'password': '(0)Letters!',
+    #          'secret': 'Y@llKn0w!'},
+        # 'PS_TempSW1': {'device_type': 'cisco_ios', 'host': '10.5.0.86', 'username': 'mcaudle', 'password': '(0)Letters!',
+    #                'secret': 'Y@llKn0w!'},

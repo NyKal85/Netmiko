@@ -1,0 +1,599 @@
+Building configuration...
+
+Current configuration : 14632 bytes
+!
+! Last configuration change at 20:20:54 UTC Mon Aug 26 2024 by mcaudle
+! NVRAM config last updated at 20:20:55 UTC Mon Aug 26 2024 by mcaudle
+!
+version 15.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+!
+hostname MMP-B30-MGMT
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$H4u4$ycLQSgwylYl9VWCU9kspo1
+!
+username admin privilege 15 secret 5 $1$wcBp$yoLF9mqBCLQDYR/.rOJjD0
+aaa new-model
+!
+!
+aaa authentication login default group radius local
+aaa authentication login NO-AAA line
+!
+!
+!
+!
+!
+!
+aaa session-id common
+switch 1 provision ws-c2960x-48fps-l
+!
+!
+!
+!
+!
+!
+ip domain-name astros.com
+ip name-server 10.1.100.152
+vtp mode transparent
+!
+!
+!
+!
+!
+!
+!
+crypto pki trustpoint TP-self-signed-3530172672
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-3530172672
+ revocation-check none
+ rsakeypair TP-self-signed-3530172672
+!
+!
+crypto pki certificate chain TP-self-signed-3530172672
+archive
+ log config
+  logging enable
+  hidekeys
+!
+spanning-tree mode rapid-pvst
+spanning-tree portfast edge default
+spanning-tree extend system-id
+!
+!
+!
+!
+!
+vlan access-map DENY_INTRA_VLAN 5
+ match ip address ALLOW_DHCP
+ action forward
+vlan access-map DENY_INTRA_VLAN 6
+ match ip address ALLOW_TO_GATEWAY
+ action forward
+vlan access-map DENY_INTRA_VLAN 10
+ match ip address DENY_INTRA_VLAN
+ action drop
+vlan access-map DENY_INTRA_VLAN 20
+ action forward
+!
+vlan filter DENY_INTRA_VLAN vlan-list 3
+vlan internal allocation policy ascending
+!
+vlan 3
+ name Guest
+!
+vlan 5
+ name MGMT
+!
+vlan 11
+ name Continuum
+!
+vlan 25
+ name Astros
+!
+vlan 35 
+!
+vlan 41
+ name HighSpeed
+!
+vlan 44
+ name XMBroadcast
+!
+vlan 48
+ name Retail
+!
+vlan 100
+ name Servers
+!
+vlan 211
+ name BPE-Ross
+!
+vlan 325
+ name Radio
+!
+vlan 404
+ name SinkHole
+!
+vlan 444
+ name Leuxs-Comcast-Uplink
+!
+vlan 700
+ name VendorNetTest
+!
+vlan 3000
+ name IT_Management
+!
+vlan 3001
+ name Business
+!
+vlan 3002
+ name Retail_vlan
+!
+vlan 3003
+ name Facilities_OT
+!
+vlan 3004
+ name BBOps_OT
+!
+vlan 3005
+ name BPE_OT
+!
+vlan 3999
+ name DMZ
+!
+lldp run
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+interface FastEthernet0
+ no ip address
+ shutdown
+!
+interface GigabitEthernet1/0/1
+ switchport access vlan 11
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/2
+ switchport access vlan 11
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/3
+ description Grundfos-Meraki-I1
+ switchport access vlan 5
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+!
+interface GigabitEthernet1/0/4
+ description MMP-B30-PA3220--MGMT
+ switchport access vlan 5
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/5
+ description A/B Power Switch
+ switchport access vlan 5
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/6
+ switchport access vlan 5
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+!
+interface GigabitEthernet1/0/7
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/8
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/9
+ switchport access vlan 5
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/10
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/11
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+!
+interface GigabitEthernet1/0/12
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+!
+interface GigabitEthernet1/0/13
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast edge
+!
+interface GigabitEthernet1/0/14
+ description Radio Uplink
+ switchport access vlan 325
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+!
+interface GigabitEthernet1/0/15
+ description Lexus-Comcast-Uplink
+ switchport access vlan 444
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+!
+interface GigabitEthernet1/0/16
+ switchport access vlan 25
+ shutdown
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+!
+interface GigabitEthernet1/0/17
+ description MDF-TermServ
+ switchport access vlan 5
+ switchport mode access
+ speed 100
+ duplex full
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+!
+interface GigabitEthernet1/0/18
+ description Continuum 01
+ switchport access vlan 11
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+!
+interface GigabitEthernet1/0/19
+ description Continuum 02
+ switchport access vlan 11
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+!
+interface GigabitEthernet1/0/20
+ switchport access vlan 3
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/21
+ switchport access vlan 3
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/22
+ switchport access vlan 3
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/23
+ switchport access vlan 3
+ switchport mode access
+!
+interface GigabitEthernet1/0/24
+ switchport access vlan 3
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/25
+ description HawkEye
+ switchport access vlan 41
+ switchport mode access
+ switchport port-security maximum 3
+ switchport port-security
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+!
+interface GigabitEthernet1/0/26
+ description HawkEye
+ switchport access vlan 41
+ switchport mode access
+ switchport port-security maximum 3
+ switchport port-security
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+!
+interface GigabitEthernet1/0/27
+ description HawkEye
+ switchport access vlan 41
+ switchport mode access
+ switchport port-security maximum 3
+ switchport port-security
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+!
+interface GigabitEthernet1/0/28
+ switchport access vlan 3
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+!
+interface GigabitEthernet1/0/29
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast edge
+!
+interface GigabitEthernet1/0/30
+ switchport access vlan 3
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+!
+interface GigabitEthernet1/0/31
+ switchport access vlan 3
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/32
+ switchport access vlan 3
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/33
+ switchport access vlan 3
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/34
+ switchport access vlan 44
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/35
+ switchport access vlan 3
+ switchport mode access
+!
+interface GigabitEthernet1/0/36
+ switchport access vlan 3
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/37
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast edge
+!
+interface GigabitEthernet1/0/38
+ switchport access vlan 44
+ switchport mode access
+ spanning-tree portfast edge
+!
+interface GigabitEthernet1/0/39
+ switchport access vlan 3
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/40
+ switchport access vlan 3
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/41
+ switchport access vlan 25
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/42
+ switchport access vlan 3
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/43
+ description post season temp
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/44
+ switchport access vlan 5
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+!
+interface GigabitEthernet1/0/45
+ description PA-VendorNet
+ switchport access vlan 5
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+!
+interface GigabitEthernet1/0/46
+ description NEW-ASA-temp
+ switchport access vlan 5
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/47
+ description Postseason Trunk
+ switchport access vlan 3
+ switchport mode access
+ shutdown
+!
+interface GigabitEthernet1/0/48
+ switchport access vlan 5
+ switchport mode access
+ snmp trap mac-notification change added
+ snmp trap mac-notification change removed
+ spanning-tree portfast edge
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/49
+ switchport access vlan 3
+ switchport mode access
+!
+interface GigabitEthernet1/0/50
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast edge
+!
+interface GigabitEthernet1/0/51
+ description UPLINK-b30-3850
+ switchport trunk allowed vlan 3,5,11,25,41,44,48,100,211,325,404,444,700
+ switchport mode trunk
+!
+interface GigabitEthernet1/0/52
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan5
+ ip address 10.5.0.140 255.255.252.0
+!
+ip default-gateway 10.5.0.1
+!
+no ip http server
+no ip http secure-server
+!
+ip access-list extended ALLOW_DHCP
+ permit udp any eq bootpc any eq bootps
+ permit udp any eq bootps any eq bootpc
+ip access-list extended ALLOW_TO_GATEWAY
+ permit ip any host 192.168.200.1
+ permit ip host 192.168.200.1 any
+ip access-list extended DENY_INTRA_VLAN
+ permit ip 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+ permit icmp 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+ permit tcp 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+ permit udp 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+!
+!
+snmp-server community cHu5EkuCAswAzA@ RO
+snmp-server community 0V=jBoses]vp RW
+snmp-server community wiseSh@pe80 RO
+snmp-server contact Astros IT 713-259-8844
+snmp-server enable traps snmp authentication linkdown linkup coldstart warmstart
+snmp-server enable traps config
+snmp-server enable traps entity
+snmp-server enable traps mac-notification change move threshold
+snmp-server host 10.1.100.175 cHu5EkuCAswAzA@  mac-notification snmp
+snmp mib flash cache
+!
+radius-server directed-request
+radius-server key 7 01070A114F07275B2D5940065A121B07
+!
+radius server DC02
+ address ipv4 10.1.100.152 auth-port 1645 acct-port 1646
+!
+banner login ^C
+   UNAUTHORIZED ACCESS OR USE TO THIS DEVICE IS PROHIBITED     
+   AND IS A CRIME UNDER FEDERAL LAW. YOU MUST HAVE EXPLICIT    
+   PERMISSION TO ACCESS OR CONFIGURE THIS DEVICE. THERE IS     
+   NO RIGHT TO PRIVACY ON THIS DEVICE. THIS SYSTEM IS EQUIPPED 
+   WITH A SECURITY SYSTEM INTENDED TO PREVENT AND RECORD ALL   
+   ACTIVITIES PERFORMED ON THIS DEVICE. VIOLATIONS OF THIS     
+   POLICY WILL RESULT IN DISCIPLINARY ACTION, AND MAY BE       
+   REPORTED TO LAW ENFORCEMENT !!!^C
+banner motd ^C
+   UNAUTHORIZED ACCESS OR USE TO THIS DEVICE IS PROHIBITED     
+   AND IS A CRIME UNDER FEDERAL LAW. YOU MUST HAVE EXPLICIT    
+   PERMISSION TO ACCESS OR CONFIGURE THIS DEVICE. THERE IS     
+   NO RIGHT TO PRIVACY ON THIS DEVICE. THIS SYSTEM IS EQUIPPED 
+   WITH A SECURITY SYSTEM INTENDED TO PREVENT AND RECORD ALL   
+   ACTIVITIES PERFORMED ON THIS DEVICE. VIOLATIONS OF THIS     
+   POLICY WILL RESULT IN DISCIPLINARY ACTION, AND MAY BE       
+   REPORTED TO LAW ENFORCEMENT !!!^C
+!
+line con 0
+ exec-timeout 600 0
+line vty 0 4
+ exec-timeout 600 0
+ password 7 053226032D6740590E44
+ length 0
+ transport input ssh
+line vty 5 15
+ exec-timeout 600 0
+ password 7 053226032D6740590E44
+ transport input ssh
+!
+ntp server 10.5.0.1
+mac address-table notification change
+mac address-table notification threshold
+mac address-table notification mac-move
+mac address-table aging-time 30
+!
+end
