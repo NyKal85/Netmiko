@@ -1,1 +1,8 @@
-exit
+description Dot1X Enabled Interface
+switchport access vlan 3
+switchport mode access
+authentication host-mode multi-auth
+authentication port-control auto
+source template AstrosPort
+spanning-tree portfast
+spanning-tree bpduguard enable

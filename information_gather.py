@@ -1,6 +1,7 @@
 from device_list import switches, ecos
 from netmiko import ConnectHandler, NetmikoTimeoutException
 from datetime import datetime
+from pathlib import Path
 import threading
 import time
 import os
@@ -15,7 +16,8 @@ def commands(ssh_conn, command_to_run):
         print(f"Unable to connect to {ssh_conn['host']} please check you data of the switch config manually")
     else:
         conn.enable()
-        data = conn.send_command(command_to_run)
+        data = conn.send_command(command_to_run, read_timeout=30)
+
 
         now = datetime.now()
         year = now.year
@@ -24,11 +26,14 @@ def commands(ssh_conn, command_to_run):
 
         prompt = conn.find_prompt()
         hostname = prompt[0:-1]
+        directory = 'C:/Users\mcaudle\PycharmProjects/Netmiko\Output'
         filename = f'{hostname}_{year}-{month}-{day}.txt'
-        folder_name = f'{command_to_run}'
-        if not os.path.exists(folder_name):
-            os.makedirs(folder_name)
-        with open(f'/Output/{folder_name}/{filename}', mode="w") as data_extract:
+        folder_name = f'{command_to_run}'.strip()
+        path = os.path.join(directory, folder_name)
+
+        if not os.path.exists(path):
+            os.makedirs(path)
+        with open(f'{path}/{filename}', mode="w") as data_extract:
             data_extract.write(data)
             print(f'{hostname} commands completed successfully')
             print('#' * 30)

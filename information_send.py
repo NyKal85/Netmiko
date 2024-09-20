@@ -23,7 +23,7 @@ def commands(data):
 
         # Enters config mode and pushes commands to device and saves config
         conn.send_config_set()
-        conn.send_config_set(command_list)
+        conn.send_config_set(command_list, read_timeout=20)
         print("Commands successfully run!")
         conn.save_config()
         if conn.check_config_mode():

@@ -18,18 +18,4 @@ def search_str(file_path, word):
 for file in all_files:
     for line in substring:
         search_str(file, line)
-#     with open(f'Output/\/{file}', 'r') as data_extract:
-#         for line in data_extract:
-#             for s in substring:
-#                 print(line)
-#                 print(s)
-#                 # if s in line:
-#                 #     print("Good")
-#                 # else:
-#                 #     print("Not Good", file)
-#
-# # for f in os.listdir(path):
-#     if os.path.isfile(f):
-#         my_list.append(f)
-#
-# print(my_list)
+
