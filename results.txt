@@ -1,0 +1,117 @@
+Bad files and missing strings:
+
+File: B-071_2024-9-20.txt
+Missing strings: authentication host-mode multi-auth, authentication port-control auto
+----------------------------------------
+
+File: B-086A_2024-9-20.txt
+Missing strings: authentication host-mode multi-auth, authentication port-control auto
+----------------------------------------
+
+File: b30-3850E-mmp_2024-9-20.txt
+Missing strings: authentication host-mode multi-auth, authentication port-control auto
+----------------------------------------
+
+File: b30-6800-mmp_2024-9-20.txt
+Missing strings: authentication host-mode multi-auth, authentication port-control auto
+----------------------------------------
+
+File: C-200A_2024-9-20.txt
+Missing strings: authentication host-mode multi-auth, authentication port-control auto
+----------------------------------------
+
+File: C-230_2024-9-20.txt
+Missing strings: authentication host-mode multi-auth, authentication port-control auto
+----------------------------------------
+
+File: C-246B_2024-9-20.txt
+Missing strings: authentication host-mode multi-auth, authentication port-control auto
+----------------------------------------
+
+File: C-251_2024-9-20.txt
+Missing strings: authentication host-mode multi-auth, authentication port-control auto
+----------------------------------------
+
+File: C-296B_2024-9-20.txt
+Missing strings: authentication host-mode multi-auth, authentication port-control auto
+----------------------------------------
+
+File: cst1-sonosvideo-mmp_2024-9-20.txt
+Missing strings: authentication host-mode multi-auth, authentication port-control auto
+----------------------------------------
+
+File: HeadEnd-3850_2024-9-20.txt
+Missing strings: authentication host-mode multi-auth, authentication port-control auto
+----------------------------------------
+
+File: highspeed112-mmp_2024-9-20.txt
+Missing strings: server name C1-CLEARPASS-01, server name AZ-CLEARPASS-01, authentication host-mode multi-auth, authentication port-control auto, radius server AZ-CLEARPASS-01, address ipv4 10.200.4.18 auth-port 1645 acct-port 1646, radius server C1-CLEARPASS-01, address ipv4 10.1.100.216 auth-port 1645 acct-port 1646
+----------------------------------------
+
+File: highspeed130-mmp_2024-9-20.txt
+Missing strings: authentication host-mode multi-auth, authentication port-control auto
+----------------------------------------
+
+File: IDF-404A_2024-9-20.txt
+Missing strings: authentication host-mode multi-auth, authentication port-control auto
+----------------------------------------
+
+File: M-103A_2024-9-20.txt
+Missing strings: authentication host-mode multi-auth, authentication port-control auto
+----------------------------------------
+
+File: M-112B_2024-9-20.txt
+Missing strings: authentication host-mode multi-auth, authentication port-control auto
+----------------------------------------
+
+File: M-120A_2024-9-20.txt
+Missing strings: authentication host-mode multi-auth, authentication port-control auto
+----------------------------------------
+
+File: M-125A_2024-9-20.txt
+Missing strings: authentication host-mode multi-auth, authentication port-control auto
+----------------------------------------
+
+File: M-133A_2024-9-20.txt
+Missing strings: authentication host-mode multi-auth, authentication port-control auto
+----------------------------------------
+
+File: M-136A-Loading-Dock_2024-9-20.txt
+Missing strings: authentication host-mode multi-auth, authentication port-control auto
+----------------------------------------
+
+File: M-155A_2024-9-20.txt
+Missing strings: authentication host-mode multi-auth, authentication port-control auto
+----------------------------------------
+
+File: MMP-B30-MGMT_2024-9-20.txt
+Missing strings: authentication host-mode multi-auth, authentication port-control auto
+----------------------------------------
+
+File: MMP-BPE-Audio_2024-9-20.txt
+Missing strings: authentication host-mode multi-auth, authentication port-control auto
+----------------------------------------
+
+File: MMP-Photo-SW_2024-9-20.txt
+Missing strings: authentication host-mode multi-auth, authentication port-control auto
+----------------------------------------
+
+File: S-300A_2024-9-20.txt
+Missing strings: authentication host-mode multi-auth, authentication port-control auto
+----------------------------------------
+
+File: S-312B_2024-9-20.txt
+Missing strings: authentication host-mode multi-auth, authentication port-control auto
+----------------------------------------
+
+File: S-318A_2024-9-20.txt
+Missing strings: authentication host-mode multi-auth, authentication port-control auto
+----------------------------------------
+
+File: S-324A_2024-9-20.txt
+Missing strings: authentication host-mode multi-auth, authentication port-control auto
+----------------------------------------
+
+File: service1-b065-mmp_2024-9-20.txt
+Missing strings: authentication host-mode multi-auth, authentication port-control auto
+----------------------------------------

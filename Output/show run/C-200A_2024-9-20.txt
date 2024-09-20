@@ -1,0 +1,502 @@
+Building configuration...
+
+Current configuration : 10415 bytes
+!
+! Last configuration change at 12:49:43 UTC Fri Sep 20 2024 by admin
+! NVRAM config last updated at 12:49:43 UTC Fri Sep 20 2024 by admin
+!
+version 15.2
+no service pad
+service timestamps debug datetime msec
+service timestamps log datetime msec
+no service password-encryption
+!
+hostname C-200A
+!
+boot-start-marker
+boot-end-marker
+!
+enable secret 5 $1$A1QW$SG5Lrg8arYkylmyAfmC//.
+!
+username admin privilege 15 secret 9 $9$Wyi8bhPG.Xq/nj$ZLYSx5QNFaohKeEUHHXcz7IDCUh96MRdTBFJgXg3kps
+aaa new-model
+!
+!
+aaa group server radius CLEARPASS
+ server name C1-CLEARPASS-01
+ server name AZ-CLEARPASS-01
+!
+aaa authentication dot1x default group CLEARPASS
+aaa authorization network default group CLEARPASS 
+aaa accounting dot1x default start-stop group CLEARPASS
+!
+!
+!
+!
+!
+aaa server radius dynamic-author
+ client 10.1.100.216 server-key Ae%5w)2j>;=fa<l@H89ED87w
+ client 10.200.4.18 server-key Ae%5w)2j>;=fa<l@H89ED87w
+ port 3799
+ auth-type all
+!
+aaa session-id common
+switch 1 provision ws-c2960x-48fps-l
+!
+!
+ip domain-name astros.com
+vtp mode transparent
+!
+!
+!
+!
+!
+!
+!
+!
+archive
+ log config
+  logging enable
+  hidekeys
+ path tftp://10.1.100.47/$h-
+ write-memory
+ time-period 10080
+dot1x system-auth-control
+spanning-tree mode pvst
+spanning-tree extend system-id
+!
+!
+!
+!
+!
+vlan access-map DENY_INTRA_VLAN 5
+ match ip address ALLOW_DHCP
+ action forward
+vlan access-map DENY_INTRA_VLAN 6
+ match ip address ALLOW_TO_GATEWAY
+ action forward
+vlan access-map DENY_INTRA_VLAN 10
+ match ip address DENY_INTRA_VLAN
+ action drop
+vlan access-map DENY_INTRA_VLAN 20
+ action forward
+!
+vlan filter DENY_INTRA_VLAN vlan-list 3
+vlan internal allocation policy ascending
+!
+vlan 3,35,98 
+!
+vlan 901
+ name Getty
+!
+vlan 902
+ name AP
+!
+vlan 903
+ name USA_Today
+!
+vlan 904
+ name Hou_Chron
+!
+vlan 905
+ name Floater_for_Cameras
+!
+vlan 3000
+ name IT_Management
+!
+vlan 3001
+ name Business
+!
+vlan 3002
+ name Retail
+!
+vlan 3003
+ name Facility_OT
+!
+vlan 3004
+ name BBOps_OT
+!
+vlan 3005
+ name BPE OT
+!
+vlan 3006
+ name Cameras
+!
+vlan 3007
+ name Radio_1
+!
+vlan 3008
+ name Radio_2
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+template AstrosPort
+ dot1x pae authenticator
+ spanning-tree portfast
+ switchport access vlan 3
+ switchport mode access
+ mab
+!
+!
+!
+!
+interface FastEthernet0
+ no ip address
+ shutdown
+!
+interface GigabitEthernet1/0/1
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/2
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/3
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/4
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/5
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/6
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/7
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/8
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/9
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/10
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/11
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/12
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/13
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/14
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/15
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/16
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/17
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/18
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/19
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/20
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/21
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/22
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/23
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/24
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/25
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/26
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/27
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/28
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/29
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/30
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/31
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/32
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/33
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/34
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/35
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/36
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/37
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/38
+ description Suite 205 ticket scanner
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/39
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/40
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/41
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/42
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/43
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/44
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/45
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/46
+ switchport access vlan 3
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/47
+ description Kameleon Panel C206
+ switchport access vlan 98
+ switchport mode access
+ spanning-tree portfast
+ spanning-tree bpduguard enable
+!
+interface GigabitEthernet1/0/48
+ description Kameleon Panel C200
+ switchport access vlan 98
+ switchport mode access
+!
+interface GigabitEthernet1/0/49
+!
+interface GigabitEthernet1/0/50
+!
+interface GigabitEthernet1/0/51
+!
+interface GigabitEthernet1/0/52
+ switchport mode trunk
+!
+interface Vlan1
+ no ip address
+ shutdown
+!
+interface Vlan3000
+ ip address 10.210.0.21 255.255.255.0
+!
+ip default-gateway 10.210.0.1
+ip http server
+ip http secure-server
+!
+ip route 0.0.0.0 0.0.0.0 10.210.0.1
+ip ssh time-out 90
+ip ssh version 2
+!
+ip access-list extended ALLOW_DHCP
+ permit udp any eq bootpc any eq bootps
+ permit udp any eq bootps any eq bootpc
+ip access-list extended ALLOW_TO_GATEWAY
+ permit ip any host 192.168.200.1
+ permit ip host 192.168.200.1 any
+ip access-list extended DENY_INTRA_VLAN
+ permit ip 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+ permit icmp 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+ permit tcp 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+ permit udp 192.168.200.0 0.0.3.255 192.168.200.0 0.0.3.255
+!
+snmp-server community wiseSh@pe80 RO
+snmp-server enable traps mac-notification change move threshold
+!
+!
+radius server AZ-CLEARPASS-01
+ address ipv4 10.200.4.18 auth-port 1645 acct-port 1646
+ key Ae%5w)2j>;=fa<l@H89ED87w
+!
+radius server C1-CLEARPASS-01
+ address ipv4 10.1.100.216 auth-port 1645 acct-port 1646
+ key Ae%5w)2j>;=fa<l@H89ED87w
+!
+no vstack
+!
+line con 0
+ exec-timeout 0 0
+ stopbits 1
+line vty 0 4
+ exec-timeout 0 0
+ transport input ssh
+line vty 5 15
+ exec-timeout 0 0
+ transport input ssh
+!
+end
